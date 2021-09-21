@@ -7,17 +7,22 @@ export default function Groups() {
     const groups = useSelector((state) => Object.values(state.groups))
     const sessionUser = useSelector((state) => state.session.user)
 
-
     useEffect(() => {
         (async () => {
-            console.log('test')
-            if (sessionUser) await dispatch(fetchGroups(sessionUser.id));
+            if (sessionUser.id) await dispatch(fetchGroups(sessionUser.id));
           })();
     }, [dispatch, sessionUser])
     
     return (
         <div>
-            {groups[0]?.Group.name}
+            {groups?.map(group => {
+                return (
+                <div key={group.id}>
+                    <div>
+                        {group.name} {group.id} {group.owner} {group.groupPic}
+                    </div>
+                </div>
+            )})}
         </div>
 )
 
