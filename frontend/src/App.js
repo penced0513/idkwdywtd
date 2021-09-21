@@ -6,6 +6,7 @@ import SignupFormPage from "./components/SignupFormPage";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import Groups from "./components/Groups";
+import CreateGroup from "./components/CreateGroupForm";
 
 function App() {
   const dispatch = useDispatch();
@@ -25,8 +26,11 @@ function App() {
           <Route path="/signup">
             <SignupFormPage />
           </Route>
-          <Route path="/groups">
+          <Route path="/groups" exact={true}>
             <Groups />
+          </Route>
+          <Route path="/groups/new">
+            <CreateGroup />
           </Route>
         </Switch>
       )}
