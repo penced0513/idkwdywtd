@@ -102,7 +102,7 @@ export const leaveGroup = (groupId, userId) => async(dispatch) => {
     const res = await csrfFetch(`/api/groups/${groupId}/leave`, {
         method: "POST",
         headers: { 'Content-Type': 'application/json'},
-        body: JSON.stringify(userId)
+        body: JSON.stringify({userId})
     })
 
     if (res.ok) {
