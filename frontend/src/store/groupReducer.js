@@ -4,6 +4,7 @@ const GET_GROUPS = 'group/getGroups'
 const GET_GROUP = 'group/getGroup'
 const NEW_GROUP = 'group/newGroup'
 const GET_PENDING = 'group/getPending'
+const DELETE_GROUP = 'group/deleteGroup'
 const LOGOUT = 'group/logout'
 
 const getGroups = (groups) => {
@@ -30,6 +31,13 @@ const getPending = (groupId, invites) => {
         payload: {
             groupId, invites
         }
+    }
+}
+
+const deleteGroup = (groupId) => {
+    return {
+        type: DELETE_GROUP,
+        groupId
     }
 }
 
@@ -76,6 +84,19 @@ export const fetchPending = (groupId) => async(dispatch) => {
         dispatch(getPending(groupId, invites))
     }
 }
+
+export const destroyGroup = (groupId) => async(dispatch) => {
+
+    const res = await csrfFetch(`/api/groups/${groupId}`, {
+        method: "DELETE"
+    })
+
+    if (res.ok) {
+        dispatch(deleteGroup(groupId))
+        return true
+    }
+}
+
 const initialState = {}
 const groupReducer = ( state= initialState, action) => {
     let newState = { ...state }
@@ -97,6 +118,9 @@ const groupReducer = ( state= initialState, action) => {
                 pending[invite.User.id] = invite.User
             })
             newState[action.payload.groupId].pending = pending
+            return newState
+        case DELETE_GROUP:
+            delete newState[action.groupId]
             return newState
         case LOGOUT:
             return initialState

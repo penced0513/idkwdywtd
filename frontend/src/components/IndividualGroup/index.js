@@ -1,11 +1,12 @@
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Redirect, useParams } from "react-router"
-import { fetchGroup, fetchPending } from "../../store/groupReducer";
-
+import { destroyGroup, fetchGroup, fetchPending } from "../../store/groupReducer";
+import { useHistory } from "react-router-dom"
 
 const IndividualGroup = () => {
     const dispatch = useDispatch()
+    const history = useHistory()
     const {groupId} = useParams()
     const sessionUser = useSelector(state => state.session.user)
     const group = useSelector((state) => state.groups[groupId])
@@ -57,10 +58,21 @@ const IndividualGroup = () => {
             })}
         </div>
     )
+
+    const handleDelete = async(e) => {
+        e.preventDefault()
+        await dispatch(destroyGroup(groupId))
+        history.push("/groups")
+    }
     return (
         <>
             <div>{group?.groupPic}</div>
             <div>{group?.name}</div>
+            { sessionUser?.id === group?.owner &&
+            <div>
+                <button onClick={handleDelete}>Delete Group</button>
+            </div>
+            }
             <div>
                 <h1>Joined Members</h1>
                 {groupMembers?.map(member => {
