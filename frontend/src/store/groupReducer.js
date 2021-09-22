@@ -4,6 +4,7 @@ const GET_GROUPS = 'group/getGroups'
 const GET_GROUP = 'group/getGroup'
 const NEW_GROUP = 'group/newGroup'
 const GET_PENDING = 'group/getPending'
+const LOGOUT = 'group/logout'
 
 const getGroups = (groups) => {
     return { type: GET_GROUPS, groups };
@@ -29,6 +30,12 @@ const getPending = (groupId, invites) => {
         payload: {
             groupId, invites
         }
+    }
+}
+
+export const groupsLogout = () => {
+    return {
+        type: LOGOUT
     }
 }
 
@@ -69,7 +76,8 @@ export const fetchPending = (groupId) => async(dispatch) => {
         dispatch(getPending(groupId, invites))
     }
 }
-const groupReducer = ( state= {}, action) => {
+const initialState = {}
+const groupReducer = ( state= initialState, action) => {
     let newState = { ...state }
     switch (action.type) {
         case GET_GROUPS: 
@@ -90,6 +98,8 @@ const groupReducer = ( state= {}, action) => {
             })
             newState[action.payload.groupId].pending = pending
             return newState
+        case LOGOUT:
+            return initialState
         default: 
             return state;
     }

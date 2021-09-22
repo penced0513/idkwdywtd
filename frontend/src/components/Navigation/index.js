@@ -34,6 +34,7 @@ function Navigation({ isLoaded }){
     <ul>
       <li>
         <NavLink exact to="/">Home</NavLink>
+        <NavLink exact to="/groups">My Groups</NavLink>
         <CreateGroupModal />
         {isLoaded && sessionLinks}
       </li>

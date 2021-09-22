@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useParams } from "react-router"
+import { Redirect, useParams } from "react-router"
 import { fetchGroup, fetchPending } from "../../store/groupReducer";
 
 
@@ -10,12 +10,15 @@ const IndividualGroup = () => {
     const sessionUser = useSelector(state => state.session.user)
     const group = useSelector((state) => state.groups[groupId])
     const pending = useSelector((state) => state.groups[groupId]?.pending)
-    let groupMembers;
-    if (group?.GroupMembers) groupMembers = Object.values(group.GroupMembers)
+
+    let groupMembers, groupMemberIds;
+    if (group?.GroupMembers) {
+        groupMembers = Object.values(group.GroupMembers).map(invite => invite.User)
+        groupMemberIds = Object.values(group.GroupMembers).map(invite => invite.User.id)
+    }
+
     let pendingMembers;
     if (pending) pendingMembers = Object.values(pending)
-
-    
 
     useEffect(() => {
         (async () => {
@@ -28,6 +31,12 @@ const IndividualGroup = () => {
             if (group?.owner === sessionUser?.id) await dispatch(fetchPending(groupId))
         })()
     }, [dispatch, group, groupId, sessionUser])
+
+        
+    if (groupMemberIds && !(sessionUser.id in groupMemberIds)) {
+        return <Redirect to="/groups" />
+    }
+
 
     const pendingMembersContent = (
         <div>
@@ -56,13 +65,13 @@ const IndividualGroup = () => {
                 <h1>Joined Members</h1>
                 {groupMembers?.map(member => {
                     return (
-                        <div key={member.User.id}>
+                        <div key={member.id}>
                             <div>
                                 <div>
-                                    {member.User.profilePic}
+                                    {member.profilePic}
                                 </div>
                                 <div>
-                                    {member.User.username}
+                                    {member.username}
                                 </div>
                             </div>
                         </div>
