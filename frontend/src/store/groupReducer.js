@@ -3,6 +3,7 @@ import { csrfFetch } from "./csrf";
 const GET_GROUPS = 'group/getGroups'
 const GET_GROUP = 'group/getGroup'
 const NEW_GROUP = 'group/newGroup'
+const GET_PENDING = 'group/getPending'
 
 const getGroups = (groups) => {
     return { type: GET_GROUPS, groups };
@@ -22,6 +23,14 @@ const newGroup = (group) => {
     }
 }
 
+const getPending = (groupId, invites) => {
+    return {
+        type: GET_PENDING,
+        payload: {
+            groupId, invites
+        }
+    }
+}
 
 export const fetchGroups = (userId) => async(dispatch) => {
     const res = await csrfFetch(`/api/users/${userId}/groups`)
@@ -53,6 +62,13 @@ export const postGroup = (groupName, userId) => async(dispatch) => {
     }
 }
 
+export const fetchPending = (groupId) => async(dispatch) => {
+    const res = await csrfFetch(`/api/groups/${groupId}/pending`)
+    if (res.ok) {
+        const invites = await res.json()
+        dispatch(getPending(groupId, invites))
+    }
+}
 const groupReducer = ( state= {}, action) => {
     let newState = { ...state }
     switch (action.type) {
@@ -66,6 +82,13 @@ const groupReducer = ( state= {}, action) => {
             return newState
         case NEW_GROUP:
             newState[action.group.id] = action.group
+            return newState
+        case GET_PENDING:
+            const pending = {}
+            action.payload.invites.forEach(invite => {
+                pending[invite.User.id] = invite.User
+            })
+            newState[action.payload.groupId].pending = pending
             return newState
         default: 
             return state;

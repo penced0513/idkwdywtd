@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router"
-import { fetchGroup } from "../../store/groupReducer";
+import { fetchGroup, fetchPending } from "../../store/groupReducer";
 
 
 const IndividualGroup = () => {
@@ -9,17 +9,43 @@ const IndividualGroup = () => {
     const {groupId} = useParams()
     const sessionUser = useSelector(state => state.session.user)
     const group = useSelector((state) => state.groups[groupId])
+    const pending = useSelector((state) => state.groups[groupId]?.pending)
     let groupMembers;
     if (group?.GroupMembers) groupMembers = Object.values(group.GroupMembers)
+    let pendingMembers;
+    if (pending) pendingMembers = Object.values(pending)
 
     useEffect(() => {
         (async () => {
             await dispatch(fetchGroup(groupId));
           })();
-    }, [dispatch])
+    }, [dispatch, groupId])
 
-    console.log(groupMembers)
+    useEffect( () => {
+        (async () => {
+            if(group) await dispatch(fetchPending(groupId))
+        })()
+    }, [dispatch, group, groupId])
 
+    const pendingMembersContent = (
+        <div>
+            <h1>Pending Members</h1>
+            {pendingMembers?.map(user => {
+                return (
+                   <div key={user.id}>
+                       <div>
+                           <div>
+                               {user.profilePic}
+                           </div>
+                           <div>
+                               {user.username}
+                           </div>
+                       </div>
+                   </div>
+                )
+            })}
+        </div>
+    )
     return (
         <>
             <div>{group?.groupPic}</div>
@@ -40,6 +66,7 @@ const IndividualGroup = () => {
                         </div>
                     )
                 })}
+                {sessionUser && sessionUser.id === group?.owner && pendingMembersContent}
             </div>
         </>
     )
