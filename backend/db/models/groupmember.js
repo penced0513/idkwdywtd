@@ -5,7 +5,6 @@ module.exports = (sequelize, DataTypes) => {
     groupId: DataTypes.INTEGER
   }, {});
   GroupMember.associate = function(models) {
-    // associations can be defined here
   };
   return GroupMember;
 };

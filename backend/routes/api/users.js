@@ -4,7 +4,7 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User } = require('../../db/models');
+const { User, Group, GroupMember } = require('../../db/models');
 
 const router = express.Router();
 
@@ -44,4 +44,19 @@ router.post(
   }),
 );
 
+router.get('/:userId/groups', asyncHandler(async(req,res) => {
+  const {userId} = req.params
+
+  const user = await User.findByPk(userId, {
+    include: {
+      model: Group,
+    }
+  })
+  // console.log(user)
+  const groups = {}
+  user.Groups.forEach(group => {
+    groups[group.id] = group
+  })
+  return res.json(groups)
+}))
   module.exports = router;
