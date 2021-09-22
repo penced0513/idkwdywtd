@@ -7,6 +7,7 @@ import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import Groups from "./components/Groups";
 import IndividualGroup from "./components/IndividualGroup";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   const dispatch = useDispatch();
@@ -26,12 +27,12 @@ function App() {
           <Route path="/signup">
             <SignupFormPage />
           </Route>
-          <Route path="/groups" exact={true}>
+          <ProtectedRoute path="/groups" exact={true}>
             <Groups />
-          </Route>
-          <Route path="/groups/:groupId">
+          </ProtectedRoute>
+          <ProtectedRoute path="/groups/:groupId">
             <IndividualGroup />
-          </Route>
+          </ProtectedRoute>
         </Switch>
       )}
     </>

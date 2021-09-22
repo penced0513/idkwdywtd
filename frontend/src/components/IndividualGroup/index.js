@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useParams } from "react-router"
-import { fetchGroup } from "../../store/groupReducer";
+import { Redirect, useParams } from "react-router"
+import { fetchGroup, fetchPending } from "../../store/groupReducer";
 
 
 const IndividualGroup = () => {
@@ -9,17 +9,54 @@ const IndividualGroup = () => {
     const {groupId} = useParams()
     const sessionUser = useSelector(state => state.session.user)
     const group = useSelector((state) => state.groups[groupId])
-    let groupMembers;
-    if (group?.GroupMembers) groupMembers = Object.values(group.GroupMembers)
+    const pending = useSelector((state) => state.groups[groupId]?.pending)
+
+    let groupMembers, groupMemberIds;
+    if (group?.GroupMembers) {
+        groupMembers = Object.values(group.GroupMembers).map(invite => invite.User)
+        groupMemberIds = Object.values(group.GroupMembers).map(invite => invite.User.id)
+    }
+
+    let pendingMembers;
+    if (pending) pendingMembers = Object.values(pending)
 
     useEffect(() => {
         (async () => {
             await dispatch(fetchGroup(groupId));
           })();
-    }, [dispatch])
+    }, [dispatch, groupId])
 
-    console.log(groupMembers)
+    useEffect( () => {
+        (async () => {
+            if (group?.owner === sessionUser?.id) await dispatch(fetchPending(groupId))
+        })()
+    }, [dispatch, group, groupId, sessionUser])
 
+        
+    if (groupMemberIds && !(sessionUser.id in groupMemberIds)) {
+        return <Redirect to="/groups" />
+    }
+
+
+    const pendingMembersContent = (
+        <div>
+            <h1>Pending Members</h1>
+            {pendingMembers?.map(user => {
+                return (
+                   <div key={user.id}>
+                       <div>
+                           <div>
+                               {user.profilePic}
+                           </div>
+                           <div>
+                               {user.username}
+                           </div>
+                       </div>
+                   </div>
+                )
+            })}
+        </div>
+    )
     return (
         <>
             <div>{group?.groupPic}</div>
@@ -28,18 +65,19 @@ const IndividualGroup = () => {
                 <h1>Joined Members</h1>
                 {groupMembers?.map(member => {
                     return (
-                        <div key={member.User.id}>
+                        <div key={member.id}>
                             <div>
                                 <div>
-                                    {member.User.profilePic}
+                                    {member.profilePic}
                                 </div>
                                 <div>
-                                    {member.User.username}
+                                    {member.username}
                                 </div>
                             </div>
                         </div>
                     )
                 })}
+                {sessionUser?.id === group?.owner && pendingMembersContent}
             </div>
         </>
     )

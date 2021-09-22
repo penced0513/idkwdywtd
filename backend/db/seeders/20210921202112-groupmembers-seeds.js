@@ -18,7 +18,11 @@ module.exports = {
         groupId: 1,
         userId: 2,
         accepted: true
-      }
+      },
+      {
+        groupId: 1,
+        userId: 3,
+      },
     ], {});
   },
 

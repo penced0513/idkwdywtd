@@ -3,6 +3,8 @@ import { csrfFetch } from "./csrf";
 const GET_GROUPS = 'group/getGroups'
 const GET_GROUP = 'group/getGroup'
 const NEW_GROUP = 'group/newGroup'
+const GET_PENDING = 'group/getPending'
+const LOGOUT = 'group/logout'
 
 const getGroups = (groups) => {
     return { type: GET_GROUPS, groups };
@@ -22,6 +24,20 @@ const newGroup = (group) => {
     }
 }
 
+const getPending = (groupId, invites) => {
+    return {
+        type: GET_PENDING,
+        payload: {
+            groupId, invites
+        }
+    }
+}
+
+export const groupsLogout = () => {
+    return {
+        type: LOGOUT
+    }
+}
 
 export const fetchGroups = (userId) => async(dispatch) => {
     const res = await csrfFetch(`/api/users/${userId}/groups`)
@@ -35,7 +51,7 @@ export const fetchGroup = (groupId ) => async(dispatch) => {
     const res = await csrfFetch(`/api/groups/${groupId}`)
     if (res.ok) {
         const group = await res.json()
-        dispatch(getGroup(group))
+        if (group) dispatch(getGroup(group))
     }
 }
 
@@ -53,7 +69,15 @@ export const postGroup = (groupName, userId) => async(dispatch) => {
     }
 }
 
-const groupReducer = ( state= {}, action) => {
+export const fetchPending = (groupId) => async(dispatch) => {
+    const res = await csrfFetch(`/api/groups/${groupId}/pending`)
+    if (res.ok) {
+        const invites = await res.json()
+        dispatch(getPending(groupId, invites))
+    }
+}
+const initialState = {}
+const groupReducer = ( state= initialState, action) => {
     let newState = { ...state }
     switch (action.type) {
         case GET_GROUPS: 
@@ -67,6 +91,15 @@ const groupReducer = ( state= {}, action) => {
         case NEW_GROUP:
             newState[action.group.id] = action.group
             return newState
+        case GET_PENDING:
+            const pending = {}
+            action.payload.invites.forEach(invite => {
+                pending[invite.User.id] = invite.User
+            })
+            newState[action.payload.groupId].pending = pending
+            return newState
+        case LOGOUT:
+            return initialState
         default: 
             return state;
     }

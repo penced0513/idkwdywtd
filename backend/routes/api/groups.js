@@ -1,6 +1,6 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
-const { restoreUser } = require('../../utils/auth');
+const { restoreUser, requireAuth } = require('../../utils/auth');
 const { User, Group, GroupMember } = require('../../db/models')
 
 const router = express.Router();
@@ -21,19 +21,34 @@ router.post('/new', asyncHandler(async(req,res) => {
     return res.json(createdGroup)
 }))
 
-router.get('/:groupId', asyncHandler(async(req,res) => {
+router.get('/:groupId(\\d+)', asyncHandler(async(req,res) => {
     const {groupId} = req.params
     const group = await Group.findByPk(groupId, {
         include: {
             model: GroupMember,
+            where: {
+                accepted: true
+            },
             include: {
                 model: User
-            }
+            },
         }
     })
 
     return res.json(group)
+}))
 
+router.get('/:groupId(\\d+)/pending', asyncHandler(async(req, res) => {
+
+    const pendingInvites = await GroupMember.findAll({
+        where: {
+            accepted: null
+        },
+        include: {
+            model: User
+        }
+    })
+    return res.json(pendingInvites)
 }))
 
 module.exports = router;
