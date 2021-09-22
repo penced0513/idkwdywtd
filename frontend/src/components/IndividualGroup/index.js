@@ -66,7 +66,7 @@ const IndividualGroup = () => {
                         </div>
                     )
                 })}
-                {sessionUser && sessionUser.id === group?.owner && pendingMembersContent}
+                {sessionUser?.id === group?.owner && pendingMembersContent}
             </div>
         </>
     )
