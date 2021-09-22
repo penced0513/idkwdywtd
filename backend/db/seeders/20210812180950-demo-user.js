@@ -9,16 +9,19 @@ module.exports = {
         email: 'demo@user.io',
         username: 'Demo-lition',
         hashedPassword: bcrypt.hashSync('password'),
+        profilePic: "https://image.pngaaa.com/823/2127823-middle.png",
       },
       {
         email: faker.internet.email(),
         username: 'FakeUser1',
         hashedPassword: bcrypt.hashSync(faker.internet.password()),
+        profilePic: "https://image.pngaaa.com/823/2127823-middle.png",
       },
       {
         email: faker.internet.email(),
         username: 'FakeUser2',
         hashedPassword: bcrypt.hashSync(faker.internet.password()),
+        profilePic: "https://image.pngaaa.com/823/2127823-middle.png",
       },
     ], {});
   },

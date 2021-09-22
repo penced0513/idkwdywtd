@@ -34,7 +34,8 @@ router.post(
   validateSignup,
   asyncHandler(async (req, res) => {
     const { email, password, username } = req.body;
-    const user = await User.signup({ email, username, password });
+    profilePic = "https://image.pngaaa.com/823/2127823-middle.png"
+    const user = await User.signup({ email, username, password, profilePic });
 
     await setTokenCookie(res, user);
 
