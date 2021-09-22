@@ -24,7 +24,7 @@ export const fetchGroups = (userId) => async(dispatch) => {
 }
 
 export const postGroup = (groupName, userId) => async(dispatch) => {
-    const payload = {groupName, userId}
+    const payload = {name: groupName, userId}
     const res = await csrfFetch(`/api/groups/new`, {
         method: 'post',
         headers: { 'Content-Type': 'application/json'},
@@ -33,6 +33,7 @@ export const postGroup = (groupName, userId) => async(dispatch) => {
     if (res.ok) {
         const group = await res.json()
         dispatch(newGroup(group, userId))
+        return(group)
     }
 }
 

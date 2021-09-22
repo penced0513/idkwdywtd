@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import * as sessionActions from '../../store/session';
 import './Navigation.css';
+import CreateGroupModal from '../CreateGroupModal';
 
 function Navigation({ isLoaded }){
   const dispatch = useDispatch()
@@ -33,6 +34,7 @@ function Navigation({ isLoaded }){
     <ul>
       <li>
         <NavLink exact to="/">Home</NavLink>
+        <CreateGroupModal />
         {isLoaded && sessionLinks}
       </li>
     </ul>

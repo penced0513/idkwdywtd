@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
+import { postGroup } from '../../store/groupReducer';
 
-const CreateGroup = () => {
+const CreateGroup = ({ closeModal }) => {
     
     const dispatch = useDispatch()
     const history = useHistory()
@@ -14,13 +15,14 @@ const CreateGroup = () => {
         e.preventDefault()
         const validationErrors = []
         const regex = /\w+/
-        if (!regex.match(name)) validationErrors.push("Invalid Name")
+        if (!regex.test(name)) validationErrors.push("Invalid Name")
         if (validationErrors.length) {
             setErrors(validationErrors)
         } else {
-            const createdGroup = await dispatch(createGroup(name))
+            const createdGroup = await dispatch(postGroup(name, sessionUser.id))
             if (createdGroup) {
                 history.push(`/groups/${createdGroup.id}`)
+                closeModal()
             }
         }
         
@@ -29,6 +31,9 @@ const CreateGroup = () => {
         <div>
             <h1>Create a Group</h1>
             <form onSubmit={handleSubmit}>
+                <ul className="signup-errors-container">
+                    {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+                </ul>
                 <label>
                     Name
                     <input
@@ -38,6 +43,7 @@ const CreateGroup = () => {
                     required
                     />
                 </label>
+                <button className="signup-submit" type="submit">Create Group</button>
             </form>
         </div>
     )

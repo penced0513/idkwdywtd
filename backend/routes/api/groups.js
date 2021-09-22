@@ -7,15 +7,18 @@ const router = express.Router();
 
 router.post('/new', asyncHandler(async(req,res) => {
     const {name, userId} = req.body
+    console.log('name', name)
     const groupPic = "https://developer.jboss.org/images/jive-sgroup-default-portrait-large.png"
-    const group = await Group.create({owner: userId, name, groupPic}, {
-        include: {
-            model: User
-        }
-    })
+    const group = await Group.create({owner: userId, name, groupPic})
 
     await GroupMember.create({ userId, groupId: group.id})
-    return res.json(group)
+
+    const createdGroup = await Group.findByPk(group.id, {
+        include: {
+            model: GroupMember
+        }
+    })
+    return res.json(createdGroup)
 }))
 
 
