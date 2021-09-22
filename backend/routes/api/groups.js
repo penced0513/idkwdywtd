@@ -38,6 +38,17 @@ router.get('/:groupId(\\d+)', asyncHandler(async(req,res) => {
     return res.json(group)
 }))
 
+router.delete('/:groupId(\\d+)', asyncHandler(async(req,res) => {
+
+    const {groupId} = req.params
+    const group = await Group.findByPk(groupId)
+
+    await group.destroy()
+
+    return res.json("Deleted")
+}))
+
+
 router.get('/:groupId(\\d+)/pending', asyncHandler(async(req, res) => {
 
     const pendingInvites = await GroupMember.findAll({
