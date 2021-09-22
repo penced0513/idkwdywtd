@@ -41,7 +41,7 @@ const groupReducer = ( state= {}, action) => {
     switch (action.type) {
         case GET_GROUPS: 
             Object.values(action.groups).forEach(group => {
-                newState[group.id] = group
+                newState[group.Group.id] = group.Group
             })
             return newState
         case NEW_GROUP:
