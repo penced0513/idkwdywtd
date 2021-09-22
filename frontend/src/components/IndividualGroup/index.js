@@ -23,9 +23,9 @@ const IndividualGroup = () => {
 
     useEffect( () => {
         (async () => {
-            if(group) await dispatch(fetchPending(groupId))
+            if (group && group.owner === sessionUser.id) await dispatch(fetchPending(groupId))
         })()
-    }, [dispatch, group, groupId])
+    }, [dispatch, group, groupId, sessionUser])
 
     const pendingMembersContent = (
         <div>
