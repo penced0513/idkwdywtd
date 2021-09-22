@@ -34,7 +34,7 @@ const IndividualGroup = () => {
     }, [dispatch, group, groupId, sessionUser])
 
         
-    if (groupMemberIds && !(sessionUser.id in groupMemberIds)) {
+    if (groupMemberIds && sessionUser && !(groupMemberIds.indexOf(sessionUser.id) !== -1)) {
         return <Redirect to="/groups" />
     }
 
@@ -65,25 +65,27 @@ const IndividualGroup = () => {
     }
     const handleLeave = async(e) => {
         e.preventDefault()
-        await dispatch(leaveGroup(groupId))
+        await dispatch(leaveGroup(groupId, sessionUser.id))
         history.push("/groups")
     }
 
     
     let deleteContent;
-    if (sessionUser?.id === group?.owner) {
-        deleteContent = <button onClick={handleDelete}>Delete Group</button>
-    } else {
-        deleteContent = <button onClick={handleLeave}>Leave Group</button>
+    if (sessionUser && group) {
+        if(sessionUser.id === group.owner) {
+            deleteContent = <button onClick={handleDelete}>Delete Group</button>
+        } else {
+            deleteContent = <button onClick={handleLeave}>Leave Group</button>
+        }
     }
 
     return (
         <>
             <div>{group?.groupPic}</div>
             <div>{group?.name}</div>
-            { sessionUser?.id === group?.owner &&
+            {
             <div>
-                <button onClick={handleDelete}>Delete Group</button>
+                {deleteContent}
             </div>
             }
             <div>
