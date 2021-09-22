@@ -80,12 +80,13 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
 //accepts object of username, password, email, hashes the password and creates a User with username, email, hashedPassword before returning the currentUser scope.
-  User.signup = async function ({ username, email, password }) {
+  User.signup = async function ({ username, email, password, profilePic }) {
     const hashedPassword = bcrypt.hashSync(password);
     const user = await User.create({
       username,
       email,
       hashedPassword,
+      profilePic
     });
     return await User.scope('currentUser').findByPk(user.id);
   };
