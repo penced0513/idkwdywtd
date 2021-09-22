@@ -18,6 +18,9 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: { model: "Groups"}
       },
+      accepted: {
+        type: Sequelize.BOOLEAN
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

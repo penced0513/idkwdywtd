@@ -5,6 +5,8 @@ module.exports = (sequelize, DataTypes) => {
     groupId: DataTypes.INTEGER
   }, {});
   GroupMember.associate = function(models) {
+    GroupMember.belongsTo(models.User, { foreignKey: "userId" })
+    GroupMember.belongsTo(models.Group, { foreignKey: "groupId" })
   };
   return GroupMember;
 };

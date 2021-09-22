@@ -11,11 +11,13 @@ module.exports = {
       return queryInterface.bulkInsert('GroupMembers', [
       {
         userId: 1,
-        groupId: 1
+        groupId: 1,
+        accepted: true
       },
       {
         groupId: 1,
-        userId: 2
+        userId: 2,
+        accepted: true
       }
     ], {});
   },
