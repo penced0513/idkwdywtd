@@ -6,14 +6,8 @@ module.exports = (sequelize, DataTypes) => {
     groupPic: DataTypes.TEXT
   }, {});
   Group.associate = function(models) {
-    const columnMapping = {
-      as: 'groupMembers',
-      through: "GroupMembers",
-      foreignKey: "groupId",
-      otherKey: "userId",
-    }
-    Group.belongsToMany(models.User, columnMapping)
     Group.belongsTo(models.User, { foreignKey: "owner"})
+    Group.hasMany(models.GroupMember, { foreignKey: "groupId" })
   };
   return Group;
 };

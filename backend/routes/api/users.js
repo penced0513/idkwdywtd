@@ -34,7 +34,8 @@ router.post(
   validateSignup,
   asyncHandler(async (req, res) => {
     const { email, password, username } = req.body;
-    const user = await User.signup({ email, username, password });
+    profilePic = "https://image.pngaaa.com/823/2127823-middle.png"
+    const user = await User.signup({ email, username, password, profilePic });
 
     await setTokenCookie(res, user);
 
@@ -47,16 +48,16 @@ router.post(
 router.get('/:userId/groups', asyncHandler(async(req,res) => {
   const {userId} = req.params
 
-  const user = await User.findByPk(userId, {
+  const groupmember = await GroupMember.findAll({
+    where: {
+      userId,
+      accepted: true
+    },
     include: {
-      model: Group,
+      model: Group
     }
   })
-  // console.log(user)
-  const groups = {}
-  user.Groups.forEach(group => {
-    groups[group.id] = group
-  })
-  return res.json(groups)
+
+  return res.json(groupmember)
 }))
   module.exports = router;

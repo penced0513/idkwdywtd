@@ -23,6 +23,10 @@ module.exports = (sequelize, DataTypes) => {
         len: [3, 256]
       },
     },
+    profilePic: {
+      type: DataTypes.TEXT,
+      allowNull: false
+    },
     hashedPassword: {
       type: DataTypes.STRING.BINARY,
       allowNull: false,
@@ -52,8 +56,8 @@ module.exports = (sequelize, DataTypes) => {
   };
 //toSafeObject will return an object with only the User instance information that is safe to save to a JWT.
   User.prototype.toSafeObject = function() { // remember, this cannot be an arrow function
-    const { id, username, email } = this; // context will be the User instance
-    return { id, username, email };
+    const { id, username, email, profilePic } = this; // context will be the User instance
+    return { id, username, email, profilePic  };
   };
 //validatePassword will accept a password string and return TRUE if it matches with the User instances hashedPassword.
 //uses bcryptjs package
@@ -87,14 +91,8 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   User.associate = function(models) {
-    const columnMapping = {
-      as: 'groupMembers',
-      through: "GroupMembers",
-      otherKey: "groupId",
-      foreignKey: "userId",
-    }
-    User.belongsToMany(models.Group, columnMapping)
     User.hasMany(models.Group, { foreignKey: "owner" })
+    User.hasMany(models.GroupMember, { foreignKey: "userId" })
   };
   return User;
 };
