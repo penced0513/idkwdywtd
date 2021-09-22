@@ -41,6 +41,7 @@ const deleteGroup = (groupId) => {
     }
 }
 
+
 export const groupsLogout = () => {
     return {
         type: LOGOUT
@@ -97,6 +98,18 @@ export const destroyGroup = (groupId) => async(dispatch) => {
     }
 }
 
+export const leaveGroup = (groupId, userId) => async(dispatch) => {
+    const res = await csrfFetch(`/api/groups/${groupId}/leave`, {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json'},
+        body: JSON.stringify(userId)
+    })
+
+    if (res.ok) {
+        dispatch(deleteGroup(groupId))
+        return true
+    }
+}
 const initialState = {}
 const groupReducer = ( state= initialState, action) => {
     let newState = { ...state }

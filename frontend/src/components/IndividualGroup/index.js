@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Redirect, useParams } from "react-router"
-import { destroyGroup, fetchGroup, fetchPending } from "../../store/groupReducer";
+import { destroyGroup, fetchGroup, fetchPending, leaveGroup } from "../../store/groupReducer";
 import { useHistory } from "react-router-dom"
 
 const IndividualGroup = () => {
@@ -38,7 +38,6 @@ const IndividualGroup = () => {
         return <Redirect to="/groups" />
     }
 
-
     const pendingMembersContent = (
         <div>
             <h1>Pending Members</h1>
@@ -64,6 +63,20 @@ const IndividualGroup = () => {
         await dispatch(destroyGroup(groupId))
         history.push("/groups")
     }
+    const handleLeave = async(e) => {
+        e.preventDefault()
+        await dispatch(leaveGroup(groupId))
+        history.push("/groups")
+    }
+
+    
+    let deleteContent;
+    if (sessionUser?.id === group?.owner) {
+        deleteContent = <button onClick={handleDelete}>Delete Group</button>
+    } else {
+        deleteContent = <button onClick={handleLeave}>Leave Group</button>
+    }
+
     return (
         <>
             <div>{group?.groupPic}</div>

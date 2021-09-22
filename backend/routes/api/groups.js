@@ -48,6 +48,20 @@ router.delete('/:groupId(\\d+)', asyncHandler(async(req,res) => {
     return res.json("Deleted")
 }))
 
+router.post('/:groupId(\\d+)/leave', asyncHandler(async(req,res) => {
+
+    const { userId } = req.body
+    const {groupId} = req.params
+    const groupmember = await GroupMember.findOne({
+        where: {
+            userId, groupId
+        }
+    })
+
+    await groupmember.destroy()
+
+    return res.json("Deleted")
+}))
 
 router.get('/:groupId(\\d+)/pending', asyncHandler(async(req, res) => {
 
