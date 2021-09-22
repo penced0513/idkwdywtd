@@ -15,6 +15,8 @@ const IndividualGroup = () => {
     let pendingMembers;
     if (pending) pendingMembers = Object.values(pending)
 
+    
+
     useEffect(() => {
         (async () => {
             await dispatch(fetchGroup(groupId));
@@ -23,7 +25,7 @@ const IndividualGroup = () => {
 
     useEffect( () => {
         (async () => {
-            if (group && group.owner === sessionUser.id) await dispatch(fetchPending(groupId))
+            if (group?.owner === sessionUser?.id) await dispatch(fetchPending(groupId))
         })()
     }, [dispatch, group, groupId, sessionUser])
 

@@ -44,7 +44,7 @@ export const fetchGroup = (groupId ) => async(dispatch) => {
     const res = await csrfFetch(`/api/groups/${groupId}`)
     if (res.ok) {
         const group = await res.json()
-        dispatch(getGroup(group))
+        if (group) dispatch(getGroup(group))
     }
 }
 
