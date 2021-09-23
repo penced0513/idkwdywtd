@@ -38,6 +38,28 @@ router.get('/:groupId(\\d+)', asyncHandler(async(req,res) => {
     return res.json(group)
 }))
 
+router.put('/:groupId(\\d+)', asyncHandler(async(req,res) => {
+
+    const {groupId} = req.params
+    const {groupName, groupPic} = req.body
+    const group = await Group.findByPk(groupId,{
+        include: {
+            model: GroupMember,
+            where: {
+                accepted: true
+            },
+            include: {
+                model: User
+            },
+        }
+    })
+
+    await group.update({ name: groupName, groupPic})
+
+
+    return res.json(group)
+}))
+
 router.delete('/:groupId(\\d+)', asyncHandler(async(req,res) => {
 
     const {groupId} = req.params

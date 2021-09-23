@@ -1,8 +1,9 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Redirect, useParams } from "react-router"
 import { destroyGroup, fetchGroup, fetchPending, leaveGroup } from "../../store/groupReducer";
 import { useHistory } from "react-router-dom"
+import EditGroupModal from "../EditGroupModal";
 
 const IndividualGroup = () => {
     const dispatch = useDispatch()
@@ -11,6 +12,8 @@ const IndividualGroup = () => {
     const sessionUser = useSelector(state => state.session.user)
     const group = useSelector((state) => state.groups[groupId])
     const pending = useSelector((state) => state.groups[groupId]?.pending)
+
+    const [showEdit, setShowEdit] = useState(false)
 
     let groupMembers, groupMemberIds;
     if (group?.GroupMembers) {
@@ -83,11 +86,12 @@ const IndividualGroup = () => {
         <>
             <div>{group?.groupPic}</div>
             <div>{group?.name}</div>
-            {
             <div>
                 {deleteContent}
             </div>
-            }
+            <div>
+                {sessionUser?.id === group?.owner && <EditGroupModal name={group.name} groupPic={group.groupPic}/>}
+            </div>
             <div>
                 <h1>Joined Members</h1>
                 {groupMembers?.map(member => {
