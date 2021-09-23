@@ -2,8 +2,9 @@ import { csrfFetch } from "./csrf";
 
 const GET_GROUPS = 'group/getGroups'
 const GET_GROUP = 'group/getGroup'
-const NEW_GROUP = 'group/newGroup'
 const GET_PENDING = 'group/getPending'
+const NEW_GROUP = 'group/newGroup'
+const PUT_GROUP = 'group/putGroup'
 const DELETE_GROUP = 'group/deleteGroup'
 const LOGOUT = 'group/logout'
 
@@ -21,6 +22,13 @@ const getGroup = (group) => {
 const newGroup = (group) => {
     return { 
         type: NEW_GROUP,
+        group
+    }
+}
+
+const putGroup = group => {
+    return {
+        type: PUT_GROUP,
         group
     }
 }
@@ -86,6 +94,20 @@ export const fetchPending = (groupId) => async(dispatch) => {
     }
 }
 
+export const editGroup = (groupId, groupName, groupPic) => async(dispatch) => {
+    const payload = { groupName, groupPic}
+    const res = await csrfFetch(`/api/groups/${groupId}`, {
+        method: 'put',
+        headers: { 'Content-Type': 'application/json'},
+        body: JSON.stringify(payload)
+    })
+    if (res.ok) {
+        const group = await res.json()
+        dispatch(putGroup(group))
+        return group
+    }
+}
+
 export const destroyGroup = (groupId) => async(dispatch) => {
 
     const res = await csrfFetch(`/api/groups/${groupId}`, {
@@ -120,6 +142,9 @@ const groupReducer = ( state= initialState, action) => {
             })
             return newState
         case GET_GROUP: 
+            newState[action.group.id] = action.group
+            return newState
+        case PUT_GROUP: 
             newState[action.group.id] = action.group
             return newState
         case NEW_GROUP:
