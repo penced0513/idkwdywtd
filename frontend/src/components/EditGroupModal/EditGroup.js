@@ -46,6 +46,11 @@ const EditGroup = ({ closeModal, name:groupName, groupPic }) => {
         }
         
     }
+    const handleCancel = (e) => {
+        e.preventDefault() 
+        closeModal()
+    } 
+
     return (
         <div>
             <h1>Edit Your Group</h1>
@@ -71,7 +76,8 @@ const EditGroup = ({ closeModal, name:groupName, groupPic }) => {
                     onChange={((e) => setImageUrl(e.target.value))}
                     />
                 </label>
-                <button type="submit">Edit Group</button>
+                <button type="submit">Save Changes</button>
+                <button onClick={handleCancel}>Cancel</button>
             </form>
         </div>
     )
