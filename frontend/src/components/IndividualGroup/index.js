@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Redirect, useParams } from "react-router"
-import { destroyGroup, destroyGroupInvite, fetchGroup, fetchPending, leaveGroup } from "../../store/groupReducer";
+import { destroyGroup, destroyGroupInvite, destroyGroupMember, fetchGroup, fetchPending, leaveGroup } from "../../store/groupReducer";
 import { useHistory } from "react-router-dom"
 import EditGroupModal from "../EditGroupModal";
 import InviteGroupModal from "../InviteGroupModal";
@@ -36,7 +36,11 @@ const IndividualGroup = () => {
 
     useEffect( () => {
         (async () => {
-            if (group?.owner === sessionUser?.id) await dispatch(fetchPending(groupId))
+            if (group?.owner === sessionUser?.id) {
+
+                const pendingInvites = await dispatch(fetchPending(groupId))
+                setPendingMembers2(pendingInvites.map(invite => invite.User))
+            }
         })()
     }, [dispatch, group, groupId, sessionUser])
 
@@ -45,16 +49,23 @@ const IndividualGroup = () => {
         return <Redirect to="/groups" />
     }
 
-    const handleRemove = async(e, userId) => {
+    const handleRemovePending = async(e, userId) => {
         e.preventDefault()
         await dispatch(destroyGroupInvite(groupId, userId))
         setPendingMembers2(Object.values(pending))
     }
 
+    const handleRemoveMember = async(e, userId) => {
+        e.preventDefault()
+        await dispatch(destroyGroupMember(groupId, userId))
+        await dispatch(fetchGroup(groupId));
+        // if (group?.owner === sessionUser?.id) await dispatch(fetchPending(groupId))
+    }
+
     const pendingMembersContent = (
         <div>
             <h1>Pending Members</h1>
-            {pendingMembers?.map(user => {
+            {pendingMembers2?.map(user => {
                 return (
                    <div key={user.id}>
                        <div>
@@ -64,7 +75,7 @@ const IndividualGroup = () => {
                            <div>
                                {user.username}
                            </div>
-                           <button onClick={e => handleRemove(e, user.id)}>Remove</button>
+                           <button onClick={e => handleRemovePending(e, user.id)}>Remove</button>
                        </div>
                    </div>
                 )
@@ -92,8 +103,8 @@ const IndividualGroup = () => {
             deleteContent = <button onClick={handleLeave}>Leave Group</button>
         }
     }
-    console.log('pending', pending)
-    console.log('pendingMembers', pendingMembers)
+
+
     return (
         <>
             <div>{group?.groupPic}</div>
@@ -119,6 +130,7 @@ const IndividualGroup = () => {
                                 <div>
                                     {member.username}
                                 </div>
+                                {sessionUser?.id === group?.owner && member.id !== group?.owner && <button onClick={e => handleRemoveMember(e, member.id)}>Remove</button>}
                             </div>
                         </div>
                     )

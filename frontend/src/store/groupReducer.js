@@ -8,6 +8,7 @@ const PUT_GROUP = 'group/putGroup'
 const DELETE_GROUP = 'group/deleteGroup'
 const INVITE_TO_GROUP = 'group/inviteToGroup'
 const REMOVE_GROUP_INVITE = 'group/removeGroupInvite' 
+const REMOVE_GROUP_MEMBER = 'group/removeGroupMember'
 const LOGOUT = 'group/logout'
 
 const getGroups = (groups) => {
@@ -67,6 +68,15 @@ const removeGroupInvite = (groupId, userId) => {
     }
 }
 
+const removeGroupMember = (groupId, userId) => {
+    return {
+        type: REMOVE_GROUP_MEMBER,
+        payload: {
+            groupId, userId
+        }
+    }
+}
+
 
 export const groupsLogout = () => {
     return {
@@ -109,6 +119,7 @@ export const fetchPending = (groupId) => async(dispatch) => {
     if (res.ok) {
         const invites = await res.json()
         dispatch(getPending(groupId, invites))
+        return invites
     }
 }
 
@@ -133,6 +144,17 @@ export const destroyGroupInvite = (groupId, userId) => async(dispatch) => {
 
     if (res.ok) {
         dispatch(removeGroupInvite(groupId, userId))
+    }
+}
+
+export const destroyGroupMember = (groupId, userId) => async(dispatch) => {
+    const res = await csrfFetch(`/api/groups/${groupId}/remove`, {
+        method: "post",
+        headers: { 'Content-Type': 'application/json'},
+        body: JSON.stringify({userId})
+    })
+    if (res.ok) {
+        dispatch(removeGroupMember(groupId, userId))
     }
 }
 
@@ -174,7 +196,7 @@ export const leaveGroup = (groupId, userId) => async(dispatch) => {
         return true
     }
 }
-const initialState = {}
+const initialState = { }
 const groupReducer = ( state= initialState, action) => {
     let newState = { ...state }
     switch (action.type) {
