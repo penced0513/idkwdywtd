@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal } from '../../context/Modal';
 import InviteGroup from './InviteGroup';
 
-function InviteGroupModal({name, groupPic}) {
+function InviteGroupModal() {
   const [showModal, setShowModal] = useState(false);
 
   return (

@@ -98,4 +98,25 @@ router.get('/:groupId(\\d+)/pending', asyncHandler(async(req, res) => {
     return res.json(pendingInvites)
 }))
 
+router.post('/:groupId(\\d+)/invite', asyncHandler(async(req,res) => {
+
+    const { userId } = req.body
+    const { groupId } = req.params
+
+    const invite = await GroupMember.create({ groupId, userId}, {
+        include: {
+            model: User
+        }
+    })
+    const newInvite = await GroupMember.findByPk(invite.id, {
+        include: {
+            model: User
+        }
+    })
+
+    console.log('invite', newInvite)
+    return res.json(newInvite)
+
+}))
+
 module.exports = router;

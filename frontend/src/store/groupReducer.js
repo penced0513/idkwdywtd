@@ -6,6 +6,7 @@ const GET_PENDING = 'group/getPending'
 const NEW_GROUP = 'group/newGroup'
 const PUT_GROUP = 'group/putGroup'
 const DELETE_GROUP = 'group/deleteGroup'
+const INVITE_TO_GROUP = 'group/inviteToGroup'
 const LOGOUT = 'group/logout'
 
 const getGroups = (groups) => {
@@ -46,6 +47,13 @@ const deleteGroup = (groupId) => {
     return {
         type: DELETE_GROUP,
         groupId
+    }
+}
+
+const groupInvite = (invite) => {
+    return {
+        type: INVITE_TO_GROUP,
+        invite
     }
 }
 
@@ -91,6 +99,18 @@ export const fetchPending = (groupId) => async(dispatch) => {
     if (res.ok) {
         const invites = await res.json()
         dispatch(getPending(groupId, invites))
+    }
+}
+
+export const inviteToGroup = (groupId, userId) => async(dispatch) => {
+    const res = await csrfFetch(`/api/groups/${groupId}/invite`, {
+        method: "post",
+        headers: { 'Content-Type': 'application/json'},
+        body: JSON.stringify({userId})
+    })
+    if (res.ok) {
+        const invite = await res.json()
+        dispatch(groupInvite(invite))
     }
 }
 
@@ -159,6 +179,9 @@ const groupReducer = ( state= initialState, action) => {
             return newState
         case DELETE_GROUP:
             delete newState[action.groupId]
+            return newState
+        case INVITE_TO_GROUP:
+            newState[action.invite.groupId].pending[action.invite.User.id] = action.invite.User
             return newState
         case LOGOUT:
             return initialState

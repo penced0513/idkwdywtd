@@ -2,15 +2,16 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom'
 import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
+import { inviteToGroup } from '../../store/groupReducer';
 
 
 const InviteGroup = ({ closeModal }) => {
-
+    const dispatch = useDispatch()
     const { groupId } = useParams()
     const users = useSelector(state => state.users)
     const group = useSelector((state) => state.groups[groupId])
     const pending = useSelector((state) => state.groups[groupId]?.pending)
-    const [invitedUser, setInvitedUser] = useState(-1)
+    const [invitedUserId, setInvitedUserId] = useState(-1)
 
     let groupMemberIds;
     if (group?.GroupMembers) {
@@ -22,6 +23,8 @@ const InviteGroup = ({ closeModal }) => {
 
     const handleInvite = async(e) => {
         e.preventDefault()
+        await dispatch(inviteToGroup(groupId, invitedUserId))
+        setInvitedUserId(-1)
     }
 
     return (
@@ -38,8 +41,8 @@ const InviteGroup = ({ closeModal }) => {
                 }
             })}
             <select
-                value={invitedUser}
-                onChange={e => setInvitedUser(e.target.value)}
+                value={invitedUserId}
+                onChange={e => setInvitedUserId(e.target.value)}
             >
                 <option value={-1}> Please Select a User</option>
                 {users && (
@@ -47,7 +50,7 @@ const InviteGroup = ({ closeModal }) => {
                             if (!(groupMemberIds.indexOf(user.id) !== -1 || 
                             pendingMembersIds.indexOf(user.id) !== -1)) {
                                 return (
-                                    <option value={user} key={user.id}>
+                                    <option value={user.id} key={user.id}>
                                         {user.username}
                                     </option>
                                 )
