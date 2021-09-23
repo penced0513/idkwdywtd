@@ -98,4 +98,57 @@ router.get('/:groupId(\\d+)/pending', asyncHandler(async(req, res) => {
     return res.json(pendingInvites)
 }))
 
+router.post('/:groupId(\\d+)/invite', asyncHandler(async(req,res) => {
+
+    const { userId } = req.body
+    const { groupId } = req.params
+
+    const invite = await GroupMember.create({ groupId, userId}, {
+        include: {
+            model: User
+        }
+    })
+    const newInvite = await GroupMember.findByPk(invite.id, {
+        include: {
+            model: User
+        }
+    })
+
+    return res.json(newInvite)
+
+}))
+
+
+router.post('/:groupId(\\d+)/uninvite', asyncHandler(async(req,res) => {
+
+    const { userId } = req.body
+    const { groupId } = req.params
+
+    const invite = await GroupMember.findOne({
+        where: { groupId, userId}, 
+    })
+   
+    await invite.destroy()
+    
+
+    return res.json("deleted")
+
+}))
+
+router.post('/:groupId(\\d+)/remove', asyncHandler(async(req,res) => {
+
+    const { userId } = req.body
+    const { groupId } = req.params
+
+    const invite = await GroupMember.findOne({
+        where: { groupId, userId}, 
+    })
+   
+    await invite.destroy()
+    
+
+    return res.json("deleted")
+
+}))
+
 module.exports = router;
