@@ -10,6 +10,7 @@ const InviteGroup = ({ closeModal }) => {
     const users = useSelector(state => state.users)
     const group = useSelector((state) => state.groups[groupId])
     const pending = useSelector((state) => state.groups[groupId]?.pending)
+    const [invitedUser, setInvitedUser] = useState(-1)
 
     let groupMemberIds;
     if (group?.GroupMembers) {
@@ -18,6 +19,10 @@ const InviteGroup = ({ closeModal }) => {
 
     let pendingMembersIds;
     if (pending) pendingMembersIds = Object.values(pending).map(member => member.id)
+
+    const handleInvite = async(e) => {
+        e.preventDefault()
+    }
 
     return (
         <div>
@@ -32,6 +37,25 @@ const InviteGroup = ({ closeModal }) => {
                     )
                 }
             })}
+            <select
+                value={invitedUser}
+                onChange={e => setInvitedUser(e.target.value)}
+            >
+                <option value={-1}> Please Select a User</option>
+                {users && (
+                        Object.values(users).map(user => {
+                            if (!(groupMemberIds.indexOf(user.id) !== -1 || 
+                            pendingMembersIds.indexOf(user.id) !== -1)) {
+                                return (
+                                    <option value={user} key={user.id}>
+                                        {user.username}
+                                    </option>
+                                )
+                            }
+                        }))
+                }
+            </select>
+            <button onClick={handleInvite}>Invite</button>
         </div>
     )
 }
