@@ -4,6 +4,8 @@ import { Redirect, useParams } from "react-router"
 import { destroyGroup, fetchGroup, fetchPending, leaveGroup } from "../../store/groupReducer";
 import { useHistory } from "react-router-dom"
 import EditGroupModal from "../EditGroupModal";
+import InviteGroupModal from "../InviteGroupModal";
+import { fetchUsers } from "../../store/userReducer";
 
 const IndividualGroup = () => {
     const dispatch = useDispatch()
@@ -27,6 +29,7 @@ const IndividualGroup = () => {
     useEffect(() => {
         (async () => {
             await dispatch(fetchGroup(groupId));
+            await dispatch(fetchUsers())
           })();
     }, [dispatch, groupId])
 
@@ -91,6 +94,9 @@ const IndividualGroup = () => {
             </div>
             <div>
                 {sessionUser?.id === group?.owner && <EditGroupModal name={group.name} groupPic={group.groupPic}/>}
+            </div>
+            <div>
+            {sessionUser?.id === group?.owner && <InviteGroupModal name={group.name} groupPic={group.groupPic}/>}
             </div>
             <div>
                 <h1>Joined Members</h1>
