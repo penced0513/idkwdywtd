@@ -14,6 +14,7 @@ const IndividualGroup = () => {
     const sessionUser = useSelector(state => state.session.user)
     const group = useSelector((state) => state.groups[groupId])
     const pending = useSelector((state) => state.groups[groupId]?.pending)
+    const [pendingMembers2, setPendingMembers2] = useState([])
 
     let groupMembers, groupMemberIds;
     if (group?.GroupMembers) {
@@ -23,6 +24,7 @@ const IndividualGroup = () => {
 
     let pendingMembers;
     if (pending) pendingMembers = Object.values(pending)
+
     
 
     useEffect(() => {
@@ -46,7 +48,9 @@ const IndividualGroup = () => {
     const handleRemove = async(e, userId) => {
         e.preventDefault()
         await dispatch(destroyGroupInvite(groupId, userId))
+        setPendingMembers2(Object.values(pending))
     }
+
     const pendingMembersContent = (
         <div>
             <h1>Pending Members</h1>
@@ -101,7 +105,7 @@ const IndividualGroup = () => {
                 {sessionUser?.id === group?.owner && <EditGroupModal name={group.name} groupPic={group.groupPic}/>}
             </div>
             <div>
-            {sessionUser?.id === group?.owner && <InviteGroupModal name={group.name} groupPic={group.groupPic}/>}
+            {sessionUser?.id === group?.owner && <InviteGroupModal setPendingMembers2={setPendingMembers2}/>}
             </div>
             <div>
                 <h1>Joined Members</h1>

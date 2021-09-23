@@ -5,13 +5,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { inviteToGroup } from '../../store/groupReducer';
 
 
-const InviteGroup = ({ closeModal }) => {
+const InviteGroup = ({ closeModal, setPendingMembers2 }) => {
     const dispatch = useDispatch()
     const { groupId } = useParams()
     const users = useSelector(state => state.users)
     const group = useSelector((state) => state.groups[groupId])
     const pending = useSelector((state) => state.groups[groupId]?.pending)
     const [invitedUserId, setInvitedUserId] = useState(-1)
+
 
     let groupMemberIds;
     if (group?.GroupMembers) {
@@ -25,6 +26,7 @@ const InviteGroup = ({ closeModal }) => {
         e.preventDefault()
         await dispatch(inviteToGroup(groupId, invitedUserId))
         setInvitedUserId(-1)
+        setPendingMembers2(Object.values(pending))
     }
 
     return (
