@@ -7,6 +7,7 @@ const NEW_GROUP = 'group/newGroup'
 const PUT_GROUP = 'group/putGroup'
 const DELETE_GROUP = 'group/deleteGroup'
 const INVITE_TO_GROUP = 'group/inviteToGroup'
+const REMOVE_GROUP_INVITE = 'group/removeGroupInvite' 
 const LOGOUT = 'group/logout'
 
 const getGroups = (groups) => {
@@ -54,6 +55,15 @@ const groupInvite = (invite) => {
     return {
         type: INVITE_TO_GROUP,
         invite
+    }
+}
+
+const removeGroupInvite = (groupId, userId) => {
+    return {
+        type: REMOVE_GROUP_INVITE,
+        payload: {
+            groupId, userId
+        }
     }
 }
 
@@ -111,6 +121,18 @@ export const inviteToGroup = (groupId, userId) => async(dispatch) => {
     if (res.ok) {
         const invite = await res.json()
         dispatch(groupInvite(invite))
+    }
+}
+
+export const destroyGroupInvite = (groupId, userId) => async(dispatch) => {
+    const res = await csrfFetch(`/api/groups/${groupId}/uninvite`, {
+        method: "post",
+        headers: { 'Content-Type': 'application/json'},
+        body: JSON.stringify({userId})
+    })
+
+    if (res.ok) {
+        dispatch(removeGroupInvite(groupId, userId))
     }
 }
 
@@ -182,6 +204,9 @@ const groupReducer = ( state= initialState, action) => {
             return newState
         case INVITE_TO_GROUP:
             newState[action.invite.groupId].pending[action.invite.User.id] = action.invite.User
+            return newState
+        case REMOVE_GROUP_INVITE:
+            delete newState[action.payload.groupId].pending[action.payload.userId]
             return newState
         case LOGOUT:
             return initialState

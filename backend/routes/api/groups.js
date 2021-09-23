@@ -114,8 +114,23 @@ router.post('/:groupId(\\d+)/invite', asyncHandler(async(req,res) => {
         }
     })
 
-    console.log('invite', newInvite)
     return res.json(newInvite)
+
+}))
+
+router.post('/:groupId(\\d+)/uninvite', asyncHandler(async(req,res) => {
+
+    const { userId } = req.body
+    const { groupId } = req.params
+
+    const invite = await GroupMember.findOne({
+        where: { groupId, userId}, 
+    })
+   
+    await invite.destroy()
+    
+
+    return res.json("deleted")
 
 }))
 

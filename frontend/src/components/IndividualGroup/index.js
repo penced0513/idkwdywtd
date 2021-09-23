@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Redirect, useParams } from "react-router"
-import { destroyGroup, fetchGroup, fetchPending, leaveGroup } from "../../store/groupReducer";
+import { destroyGroup, destroyGroupInvite, fetchGroup, fetchPending, leaveGroup } from "../../store/groupReducer";
 import { useHistory } from "react-router-dom"
 import EditGroupModal from "../EditGroupModal";
 import InviteGroupModal from "../InviteGroupModal";
@@ -23,6 +23,7 @@ const IndividualGroup = () => {
 
     let pendingMembers;
     if (pending) pendingMembers = Object.values(pending)
+    
 
     useEffect(() => {
         (async () => {
@@ -42,6 +43,10 @@ const IndividualGroup = () => {
         return <Redirect to="/groups" />
     }
 
+    const handleRemove = async(e, userId) => {
+        e.preventDefault()
+        await dispatch(destroyGroupInvite(groupId, userId))
+    }
     const pendingMembersContent = (
         <div>
             <h1>Pending Members</h1>
@@ -55,6 +60,7 @@ const IndividualGroup = () => {
                            <div>
                                {user.username}
                            </div>
+                           <button onClick={e => handleRemove(e, user.id)}>Remove</button>
                        </div>
                    </div>
                 )
@@ -82,7 +88,8 @@ const IndividualGroup = () => {
             deleteContent = <button onClick={handleLeave}>Leave Group</button>
         }
     }
-
+    console.log('pending', pending)
+    console.log('pendingMembers', pendingMembers)
     return (
         <>
             <div>{group?.groupPic}</div>
