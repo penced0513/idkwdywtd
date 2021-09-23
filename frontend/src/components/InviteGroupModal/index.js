@@ -7,7 +7,7 @@ function InviteGroupModal({name, groupPic}) {
 
   return (
     <>
-      <button onClick={() => setShowModal(true)}>Invite Group</button>
+      <button onClick={() => setShowModal(true)}>Invite to Group</button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
           <InviteGroup closeModal={() => setShowModal(false)}/>

@@ -39,7 +39,7 @@ const EditGroup = ({ closeModal, name:groupName, groupPic }) => {
         if (validationErrors.length) {
             setErrors(validationErrors)
         } else {
-            const editedGroup = await dispatch(editGroup(groupId, name, imageUrl ))
+            const editedGroup = await dispatch(editGroup(groupId, name, imageUrl))
             if (editedGroup) {
                 closeModal()
             }

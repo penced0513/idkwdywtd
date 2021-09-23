@@ -15,8 +15,6 @@ const IndividualGroup = () => {
     const group = useSelector((state) => state.groups[groupId])
     const pending = useSelector((state) => state.groups[groupId]?.pending)
 
-    const [showEdit, setShowEdit] = useState(false)
-
     let groupMembers, groupMemberIds;
     if (group?.GroupMembers) {
         groupMembers = Object.values(group.GroupMembers).map(invite => invite.User)
