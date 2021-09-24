@@ -12,7 +12,7 @@ module.exports = {
       {
         owner: 1,
         name: "test group",
-        groupPic: "https://developer.jboss.org/images/jive-sgroup-default-portrait-large.png"
+        groupPic: "https://cdn2.iconfinder.com/data/icons/people-groups/512/Leader_Avatar-512.png"
       }
     ], {});
   },

@@ -1,0 +1,17 @@
+.group-groupPic {
+    border-radius: 50%;
+    height: 200px;
+    width: 200px;
+}
+
+.group-info-container {
+    display: flex;
+}
+
+.group-groupname { 
+    text-align: center;
+}
+
+.group-page-container {
+    /* display: flex; */
+}

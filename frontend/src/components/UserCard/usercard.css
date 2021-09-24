@@ -1,0 +1,20 @@
+.usercard-profilePic {
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    margin-right: 1em;
+}
+
+.usercard-name-pic {
+    display: flex;
+    align-items: center;
+}
+
+.usercard-container {
+    display: flex;
+    align-items: center;
+}
+
+.user-trash-can-div{
+    margin-left: 1em;
+}

@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom'
 import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { inviteToGroup } from '../../store/groupReducer';
+import UserCard from '../UserCard';
 
 
 const InviteGroup = ({ closeModal, setPendingMembers2 }) => {
@@ -36,9 +37,7 @@ const InviteGroup = ({ closeModal, setPendingMembers2 }) => {
                 if (!(groupMemberIds.indexOf(user.id) !== -1 || 
                 pendingMembersIds.indexOf(user.id) !== -1)) {
                     return (
-                        <div key={user.id}>
-                            {user.username}
-                        </div>
+                        <UserCard key={user.id} user={user} />
                     )
                 }
             })}
