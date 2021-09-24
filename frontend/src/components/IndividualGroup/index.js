@@ -23,7 +23,7 @@ const IndividualGroup = () => {
     let groupMembers, groupMemberIds;
     if (group?.GroupMembers) {
         groupMembers = Object.values(group.GroupMembers).map(invite => invite.User)
-        groupMemberIds = Object.values(group.GroupMembers).map(invite => invite.User.id)
+        groupMemberIds = Object.values(group.GroupMembers).map(invite => invite.User?.id)
     }
 
     let pendingMembers;

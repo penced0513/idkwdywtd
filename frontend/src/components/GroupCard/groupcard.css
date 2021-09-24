@@ -1,0 +1,31 @@
+.groupcard-groupPic {
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    margin-right: 1em;
+}
+
+.groupcard-name-pic {
+    display: flex;
+    align-items: center;
+}
+
+.groupcard-container {
+    display: flex;
+    align-items: center;
+}
+
+.user-trash-can-div{
+    margin-left: 1em;
+}
+
+.groupcard-groupname {
+    text-decoration: none;
+    color: black;
+	font-size: 2em; 
+    margin-top: 0.67em; 
+    margin-bottom: 0.67em; 
+    margin-left: 0; 
+    margin-right: 0; 
+    font-weight: bold;
+}

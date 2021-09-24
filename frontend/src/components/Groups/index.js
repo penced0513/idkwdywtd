@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { NavLink  } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 import { fetchGroups } from "../../store/groupReducer";
+import './groups.css'
+import GroupCard from '../GroupCard'
 
 export default function Groups() {
     const dispatch = useDispatch()
@@ -16,14 +18,7 @@ export default function Groups() {
     
     return (
         <div>
-            {groups?.map(group => {
-                return (
-                <div key={group.id}>
-                    <NavLink to={`/groups/${group.id}`}>
-                        {group.name} {group.id} {group.owner} {group.groupPic}
-                    </NavLink>
-                </div>
-            )})}
+            {groups?.map(group => <GroupCard group={group} />)}
         </div>
 )
 
