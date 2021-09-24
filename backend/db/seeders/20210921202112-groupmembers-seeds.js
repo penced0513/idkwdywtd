@@ -23,6 +23,11 @@ module.exports = {
         groupId: 1,
         userId: 3,
       },
+      {
+        groupId:1,
+        userId:4,
+        accepted: true
+      },
     ], {});
   },
 

@@ -22,6 +22,30 @@ module.exports = {
         username: 'FakeUser2',
         hashedPassword: bcrypt.hashSync('password'),
         profilePic: "https://image.pngaaa.com/823/2127823-middle.png",
+      },      
+      {
+        email: faker.internet.email(),
+        username: 'FakeUser3',
+        hashedPassword: bcrypt.hashSync('password'),
+        profilePic: "https://image.pngaaa.com/823/2127823-middle.png",
+      },
+      {
+        email: faker.internet.email(),
+        username: 'FakeUser4',
+        hashedPassword: bcrypt.hashSync('password'),
+        profilePic: "https://image.pngaaa.com/823/2127823-middle.png",
+      },
+      {
+        email: faker.internet.email(),
+        username: 'FakeUser5',
+        hashedPassword: bcrypt.hashSync('password'),
+        profilePic: "https://image.pngaaa.com/823/2127823-middle.png",
+      },
+      {
+        email: faker.internet.email(),
+        username: 'FakeUser6',
+        hashedPassword: bcrypt.hashSync('password'),
+        profilePic: "https://image.pngaaa.com/823/2127823-middle.png",
       },
     ], {});
   },
