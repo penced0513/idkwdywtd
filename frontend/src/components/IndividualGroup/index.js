@@ -6,6 +6,9 @@ import { useHistory } from "react-router-dom"
 import EditGroupModal from "../EditGroupModal";
 import InviteGroupModal from "../InviteGroupModal";
 import { fetchUsers } from "../../store/userReducer";
+import UserCard from "../UserCard";
+import './individualGroup.css'
+import UsersList from "../UsersList";
 
 const IndividualGroup = () => {
     const dispatch = useDispatch()
@@ -15,6 +18,7 @@ const IndividualGroup = () => {
     const group = useSelector((state) => state.groups[groupId])
     const pending = useSelector((state) => state.groups[groupId]?.pending)
     const [pendingMembers2, setPendingMembers2] = useState([])
+    const [showPending, setShowPending] = useState(false)
 
     let groupMembers, groupMemberIds;
     if (group?.GroupMembers) {
@@ -64,22 +68,13 @@ const IndividualGroup = () => {
 
     const pendingMembersContent = (
         <div>
-            <h1>Pending Members</h1>
-            {pendingMembers2?.map(user => {
+            <h1>Pending Invites</h1>
+            <UsersList users={pendingMembers2} deleteFunction={handleRemovePending} />
+            {/* {pendingMembers2?.map(user => {
                 return (
-                   <div key={user.id}>
-                       <div>
-                           <div>
-                               {user.profilePic}
-                           </div>
-                           <div>
-                               {user.username}
-                           </div>
-                           <button onClick={e => handleRemovePending(e, user.id)}>Remove</button>
-                       </div>
-                   </div>
+                        <UserCard key={user.id} user={user} onDelete={e => handleRemovePending(e, user.id)} />
                 )
-            })}
+            })} */}
         </div>
     )
 
@@ -104,40 +99,53 @@ const IndividualGroup = () => {
         }
     }
 
+    const handleShowPending = e => {
+        e.preventDefault()
+        setShowPending(true)
+    }
+    
+    const handleHidePending = e => {
+        e.preventDefault()
+        setShowPending(false)
+    }
+
 
     return (
-        <>
-            <div>{group?.groupPic}</div>
-            <div>{group?.name}</div>
-            <div>
-                {deleteContent}
+        <div className="group-page-container">
+            <div className="group-info-container">
+                <div>
+                    <img className="group-groupPic" src={group?.groupPic} />
+                    <h1 className="group-groupname">{group?.name}</h1>
+                    {sessionUser?.id === group?.owner && <EditGroupModal name={group.name} groupPic={group.groupPic}/>}
+                    {deleteContent}
+                </div>
             </div>
-            <div>
-                {sessionUser?.id === group?.owner && <EditGroupModal name={group.name} groupPic={group.groupPic}/>}
-            </div>
-            <div>
-            {sessionUser?.id === group?.owner && <InviteGroupModal setPendingMembers2={setPendingMembers2}/>}
-            </div>
-            <div>
-                <h1>Joined Members</h1>
-                {groupMembers?.map(member => {
-                    return (
-                        <div key={member.id}>
-                            <div>
-                                <div>
-                                    {member.profilePic}
-                                </div>
-                                <div>
-                                    {member.username}
-                                </div>
-                                {sessionUser?.id === group?.owner && member.id !== group?.owner && <button onClick={e => handleRemoveMember(e, member.id)}>Remove</button>}
-                            </div>
+            <div className="">
+                <div>
+                    {sessionUser?.id === group?.owner && <InviteGroupModal setPendingMembers2={setPendingMembers2}/>}
+                    {sessionUser?.id === group?.owner && !showPending && <button onClick={e => handleShowPending(e)}>Show Pending</button>}
+                    {sessionUser?.id === group?.owner && showPending && <button onClick={e => handleHidePending(e)}>Hide Pending</button>}
+                </div>
+                <div>
+                    {
+                    !showPending &&  
+                        <div>
+                            <h1>Joined Members</h1>
+                            {groupMembers?.map(member => {
+                                let onDelete;
+                                if (sessionUser?.id === group?.owner && member.id !== group?.owner) onDelete = e => handleRemoveMember(e, member.id)
+                                return (
+                                    <UserCard key={member.id} user={member} onDelete={onDelete} />    
+                                )
+                            })}
                         </div>
-                    )
-                })}
-                {sessionUser?.id === group?.owner && pendingMembersContent}
+                    }      
+                    { 
+                    showPending && pendingMembersContent
+                    }
+                </div>
             </div>
-        </>
+        </div>
     )
 }
 
