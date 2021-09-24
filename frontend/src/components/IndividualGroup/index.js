@@ -23,7 +23,7 @@ const IndividualGroup = () => {
     let groupMembers, groupMemberIds;
     if (group?.GroupMembers) {
         groupMembers = Object.values(group.GroupMembers).map(invite => invite.User)
-        groupMemberIds = Object.values(group.GroupMembers).map(invite => invite.User.id)
+        groupMemberIds = Object.values(group.GroupMembers).map(invite => invite.User?.id)
     }
 
     let pendingMembers;
@@ -68,13 +68,8 @@ const IndividualGroup = () => {
 
     const pendingMembersContent = (
         <div>
-            <h1>Pending Invites</h1>
+
             <UsersList users={pendingMembers2} deleteFunction={handleRemovePending} />
-            {/* {pendingMembers2?.map(user => {
-                return (
-                        <UserCard key={user.id} user={user} onDelete={e => handleRemovePending(e, user.id)} />
-                )
-            })} */}
         </div>
     )
 
@@ -123,27 +118,22 @@ const IndividualGroup = () => {
             <div className="">
                 <div>
                     {sessionUser?.id === group?.owner && <InviteGroupModal setPendingMembers2={setPendingMembers2}/>}
+
+                </div>
+                    {showPending ? <h1>Pending Invites</h1> : <h1>Joined Members</h1>}
                     {sessionUser?.id === group?.owner && !showPending && <button onClick={e => handleShowPending(e)}>Show Pending</button>}
                     {sessionUser?.id === group?.owner && showPending && <button onClick={e => handleHidePending(e)}>Hide Pending</button>}
-                </div>
-                <div>
-                    {
-                    !showPending &&  
-                        <div>
-                            <h1>Joined Members</h1>
-                            {groupMembers?.map(member => {
-                                let onDelete;
-                                if (sessionUser?.id === group?.owner && member.id !== group?.owner) onDelete = e => handleRemoveMember(e, member.id)
-                                return (
-                                    <UserCard key={member.id} user={member} onDelete={onDelete} />    
-                                )
-                            })}
-                        </div>
-                    }      
-                    { 
-                    showPending && pendingMembersContent
-                    }
-                </div>
+            </div>
+            <div>
+                {
+                !showPending &&  groupMembers &&
+                    <div>
+                        <UsersList users={groupMembers} deleteFunction={handleRemoveMember} />
+                    </div>
+                }      
+                { 
+                showPending && pendingMembersContent
+                }
             </div>
         </div>
     )

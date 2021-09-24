@@ -11,7 +11,7 @@ router.post('/new', asyncHandler(async(req,res) => {
     const groupPic = "https://developer.jboss.org/images/jive-sgroup-default-portrait-large.png"
     const group = await Group.create({owner: userId, name, groupPic})
 
-    await GroupMember.create({ userId, groupId: group.id})
+    await GroupMember.create({ userId, groupId: group.id, accepted: true})
 
     const createdGroup = await Group.findByPk(group.id, {
         include: {
