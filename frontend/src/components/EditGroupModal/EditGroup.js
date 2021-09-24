@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom'
 import { useParams } from 'react-router';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { editGroup } from '../../store/groupReducer';
 
 const EditGroup = ({ closeModal, name:groupName, groupPic }) => {
 
     const {groupId} = useParams()
     const dispatch = useDispatch()
-    const history = useHistory()
-    const sessionUser = useSelector(state => state.session.user)
     const [name, setName] = useState(groupName)
     const [imageUrl, setImageUrl] = useState(groupPic);
     const [errors, setErrors] = useState([])

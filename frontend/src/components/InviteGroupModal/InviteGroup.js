@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom'
 import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { inviteToGroup } from '../../store/groupReducer';
@@ -29,16 +28,19 @@ const InviteGroup = ({ closeModal, setPendingMembers2 }) => {
         setInvitedUserId(-1)
         setPendingMembers2(Object.values(pending))
     }
-
+    
     return (
         <div>
             <h1>Invite a User</h1>
-            {users && Object.values(users).map(user => {
+            {users && groupMemberIds && Object.values(users).map(user => {
+                
                 if (!(groupMemberIds.indexOf(user.id) !== -1 || 
                 pendingMembersIds.indexOf(user.id) !== -1)) {
                     return (
                         <UserCard key={user.id} user={user} />
                     )
+                } else {
+                    return null
                 }
             })}
             <select
@@ -46,7 +48,7 @@ const InviteGroup = ({ closeModal, setPendingMembers2 }) => {
                 onChange={e => setInvitedUserId(e.target.value)}
             >
                 <option value={-1}> Please Select a User</option>
-                {users && (
+                {users && groupMemberIds &&  (
                         Object.values(users).map(user => {
                             if (!(groupMemberIds.indexOf(user.id) !== -1 || 
                             pendingMembersIds.indexOf(user.id) !== -1)) {
@@ -55,6 +57,8 @@ const InviteGroup = ({ closeModal, setPendingMembers2 }) => {
                                         {user.username}
                                     </option>
                                 )
+                            } else {
+                                return null
                             }
                         }))
                 }
