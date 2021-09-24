@@ -6,7 +6,6 @@ import { useHistory } from "react-router-dom"
 import EditGroupModal from "../EditGroupModal";
 import InviteGroupModal from "../InviteGroupModal";
 import { fetchUsers } from "../../store/userReducer";
-import UserCard from "../UserCard";
 import './individualGroup.css'
 import UsersList from "../UsersList";
 
@@ -26,10 +25,6 @@ const IndividualGroup = () => {
         groupMemberIds = Object.values(group.GroupMembers).map(invite => invite.User?.id)
     }
 
-    let pendingMembers;
-    if (pending) pendingMembers = Object.values(pending)
-
-    
 
     useEffect(() => {
         (async () => {
@@ -41,7 +36,7 @@ const IndividualGroup = () => {
     useEffect( () => {
         (async () => {
             if (group?.owner === sessionUser?.id) {
-
+                setPendingMembers2([])
                 const pendingInvites = await dispatch(fetchPending(groupId))
                 setPendingMembers2(pendingInvites.map(invite => invite.User))
             }
@@ -109,7 +104,7 @@ const IndividualGroup = () => {
         <div className="group-page-container">
             <div className="group-info-container">
                 <div>
-                    <img className="group-groupPic" src={group?.groupPic} />
+                    <img alt="group" className="group-groupPic" src={group?.groupPic} />
                     <h1 className="group-groupname">{group?.name}</h1>
                     {sessionUser?.id === group?.owner && <EditGroupModal name={group.name} groupPic={group.groupPic}/>}
                     {deleteContent}

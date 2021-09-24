@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.post('/new', asyncHandler(async(req,res) => {
     const {name, userId} = req.body
-    const groupPic = "https://developer.jboss.org/images/jive-sgroup-default-portrait-large.png"
+    const groupPic = "https://cdn2.iconfinder.com/data/icons/people-groups/512/Leader_Avatar-512.png"
     const group = await Group.create({owner: userId, name, groupPic})
 
     await GroupMember.create({ userId, groupId: group.id, accepted: true})
@@ -87,9 +87,11 @@ router.post('/:groupId(\\d+)/leave', asyncHandler(async(req,res) => {
 
 router.get('/:groupId(\\d+)/pending', asyncHandler(async(req, res) => {
 
+    const {groupId} = req.params
     const pendingInvites = await GroupMember.findAll({
         where: {
-            accepted: null
+            accepted: null,
+            groupId
         },
         include: {
             model: User
