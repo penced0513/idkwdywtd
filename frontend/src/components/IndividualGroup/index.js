@@ -8,6 +8,7 @@ import InviteGroupModal from "../InviteGroupModal";
 import { fetchUsers } from "../../store/userReducer";
 import UserCard from "../UserCard";
 import './individualGroup.css'
+import UsersList from "../UsersList";
 
 const IndividualGroup = () => {
     const dispatch = useDispatch()
@@ -68,11 +69,12 @@ const IndividualGroup = () => {
     const pendingMembersContent = (
         <div>
             <h1>Pending Invites</h1>
-            {pendingMembers2?.map(user => {
+            <UsersList users={pendingMembers2} deleteFunction={handleRemovePending} />
+            {/* {pendingMembers2?.map(user => {
                 return (
                         <UserCard key={user.id} user={user} onDelete={e => handleRemovePending(e, user.id)} />
                 )
-            })}
+            })} */}
         </div>
     )
 
@@ -118,11 +120,14 @@ const IndividualGroup = () => {
                     {deleteContent}
                 </div>
             </div>
-            <div>
-                {sessionUser?.id === group?.owner && <InviteGroupModal setPendingMembers2={setPendingMembers2}/>}
-                {sessionUser?.id === group?.owner && !showPending && <button onClick={e => handleShowPending(e)}>Show Pending</button>}
-                {sessionUser?.id === group?.owner && showPending && <button onClick={e => handleHidePending(e)}>Hide Pending</button>}
-                {
+            <div className="">
+                <div>
+                    {sessionUser?.id === group?.owner && <InviteGroupModal setPendingMembers2={setPendingMembers2}/>}
+                    {sessionUser?.id === group?.owner && !showPending && <button onClick={e => handleShowPending(e)}>Show Pending</button>}
+                    {sessionUser?.id === group?.owner && showPending && <button onClick={e => handleHidePending(e)}>Hide Pending</button>}
+                </div>
+                <div>
+                    {
                     !showPending &&  
                         <div>
                             <h1>Joined Members</h1>
@@ -134,10 +139,11 @@ const IndividualGroup = () => {
                                 )
                             })}
                         </div>
-                }      
-                { 
-                showPending && pendingMembersContent
-                }
+                    }      
+                    { 
+                    showPending && pendingMembersContent
+                    }
+                </div>
             </div>
         </div>
     )
