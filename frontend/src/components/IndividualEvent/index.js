@@ -57,7 +57,6 @@ const IndividualEvent = () => {
         e.preventDefault()
         await dispatch(destroyAttendee(eventId, userId))
         await dispatch(fetchEvent(eventId));
-        // if (event?.host === sessionUser?.id) await dispatch(fetchPending(eventId))
     }
 
     const pendingMembersContent = (
@@ -100,21 +99,25 @@ const IndividualEvent = () => {
 
 
     return (
-        <div className="event-page-container">
-            <div className="event-info-container">
+        <div className="group-page-container">
+            <div className="group-info-container">
                 <div>
-                    <img alt="event" className="event-eventPic" src={event?.eventPic} />
+                    <img alt="event" className="group-groupPic" src={event?.eventPic} />
                     <h1 className="event-eventname">{event?.name}</h1>
                     {sessionUser?.id === event?.host && <EditEventModal name={event.name} eventPic={event.eventPic}/>}
                     {deleteContent}
+                    <h2>{event?.duration > 1 ? event?.duration + " days" : event?.duration + " day"} </h2>
                 </div>
             </div>
+            <div>
+                <h2>{event && new Date(event.startDate).toDateString()}</h2>
+            </div>
+            <div>
+                {event?.totalCost && <h2>Total Cost: {event.totalCost}</h2>}
+            </div>
             <div className="">
-                <div>
-                    {sessionUser?.id === event?.host && <InviteEventModal setPendingMembers2={setPendingMembers2}/>}
-
-                </div>
                     {showPending ? <h1>Pending Invites</h1> : <h1>Joined Members</h1>}
+                    {sessionUser?.id === event?.host && <InviteEventModal setPendingMembers2={setPendingMembers2}/>}
                     {sessionUser?.id === event?.host && !showPending && <button onClick={e => handleShowPending(e)}>Show Pending</button>}
                     {sessionUser?.id === event?.host && showPending && <button onClick={e => handleHidePending(e)}>Hide Pending</button>}
             </div>
