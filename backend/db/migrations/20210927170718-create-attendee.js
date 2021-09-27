@@ -21,6 +21,9 @@ module.exports = {
       balance: {
         type: Sequelize.INTEGER
       },
+      accepted: {
+        type: Sequelize.BOOLEAN
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

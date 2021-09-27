@@ -11,7 +11,8 @@ module.exports = {
       return queryInterface.bulkInsert('Attendees', [
         {
           userId: 1,
-          eventId: 1
+          eventId: 1,
+          accepted: true
         }
     ], {});
   },
