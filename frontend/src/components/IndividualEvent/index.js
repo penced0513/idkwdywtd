@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { Redirect, useParams } from "react-router"
 import { destroyEvent, destroyEventInvite, destroyAttendee, fetchEvent, fetchPending, leaveEvent } from "../../store/eventReducer";
 import { useHistory } from "react-router-dom"
-// import EditEventModal from "../EditEventModal";
-// import InviteEventModal from "../InviteEventModal";
+import EditEventModal from "../EditEventModal";
+import InviteEventModal from "../InviteEventModal";
 import { fetchUsers } from "../../store/userReducer";
 import UsersList from "../UsersList";
 
@@ -34,7 +34,7 @@ const IndividualEvent = () => {
 
     useEffect( () => {
         (async () => {
-            if (event?.hoster === sessionUser?.id) {
+            if (event?.host === sessionUser?.id) {
                 setPendingMembers2([])
                 const pendingInvites = await dispatch(fetchPending(eventId))
                 setPendingMembers2(pendingInvites.map(invite => invite.User))
@@ -57,7 +57,7 @@ const IndividualEvent = () => {
         e.preventDefault()
         await dispatch(destroyAttendee(eventId, userId))
         await dispatch(fetchEvent(eventId));
-        // if (event?.hoster === sessionUser?.id) await dispatch(fetchPending(eventId))
+        // if (event?.host === sessionUser?.id) await dispatch(fetchPending(eventId))
     }
 
     const pendingMembersContent = (
@@ -105,18 +105,18 @@ const IndividualEvent = () => {
                 <div>
                     <img alt="event" className="event-eventPic" src={event?.eventPic} />
                     <h1 className="event-eventname">{event?.name}</h1>
-                    {/* {sessionUser?.id === event?.hoster && <EditEventModal name={event.name} eventPic={event.eventPic}/>} */}
+                    {sessionUser?.id === event?.host && <EditEventModal name={event.name} eventPic={event.eventPic}/>}
                     {deleteContent}
                 </div>
             </div>
             <div className="">
                 <div>
-                    {/* {sessionUser?.id === event?.hoster && <InviteEventModal setPendingMembers2={setPendingMembers2}/>} */}
+                    {sessionUser?.id === event?.host && <InviteEventModal setPendingMembers2={setPendingMembers2}/>}
 
                 </div>
                     {showPending ? <h1>Pending Invites</h1> : <h1>Joined Members</h1>}
-                    {sessionUser?.id === event?.hoster && !showPending && <button onClick={e => handleShowPending(e)}>Show Pending</button>}
-                    {sessionUser?.id === event?.hoster && showPending && <button onClick={e => handleHidePending(e)}>Hide Pending</button>}
+                    {sessionUser?.id === event?.host && !showPending && <button onClick={e => handleShowPending(e)}>Show Pending</button>}
+                    {sessionUser?.id === event?.host && showPending && <button onClick={e => handleHidePending(e)}>Hide Pending</button>}
             </div>
             <div>
                 {
