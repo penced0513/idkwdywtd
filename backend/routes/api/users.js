@@ -4,7 +4,7 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User, Group, GroupMember } = require('../../db/models');
+const { User, Group, GroupMember, Attendee, Event } = require('../../db/models');
 
 const router = express.Router();
 
@@ -62,6 +62,21 @@ router.get('/:userId/groups', asyncHandler(async(req,res) => {
     },
     include: {
       model: Group
+    }
+  })
+
+  return res.json(groupmember)
+}))
+
+router.get('/:userId/events', asyncHandler(async(req,res) => {
+  const {userId} = req.params
+
+  const groupmember = await Attendee.findAll({
+    where: {
+      userId,
+    },
+    include: {
+      model: Event
     }
   })
 
