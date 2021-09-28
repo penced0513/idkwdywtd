@@ -45,7 +45,7 @@ router.get('/:eventId(\\d+)', asyncHandler(async(req,res) => {
 router.put('/:eventId(\\d+)', asyncHandler(async(req,res) => {
 
     const {eventId} = req.params
-    const {eventName, eventPic} = req.body
+    const {eventName, eventPic, duration, startDate} = req.body
     const event = await Event.findByPk(eventId,{
         include: {
             model: Attendee,
@@ -58,7 +58,7 @@ router.put('/:eventId(\\d+)', asyncHandler(async(req,res) => {
         }
     })
 
-    await event.update({ name: eventName, eventPic})
+    await event.update({ name: eventName, eventPic, duration, startDate})
 
 
     return res.json(event)
