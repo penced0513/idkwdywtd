@@ -111,7 +111,7 @@ const IndividualEvent = () => {
                 <div>
                     <img alt="event" className="group-groupPic" src={event?.eventPic} />
                     <h1 className="event-eventname">{event?.name}</h1>
-                    {sessionUser?.id === event?.host && <EditEventModal name={event.name} eventPic={event.eventPic}/>}
+                    {sessionUser?.id === event?.host && <EditEventModal event={event}/>}
                     {deleteContent}
                     <h2>{event?.duration > 1 ? event?.duration + " days" : event?.duration + " day"} </h2>
                 </div>

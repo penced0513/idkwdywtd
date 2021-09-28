@@ -13,7 +13,6 @@ const CreateEvent = ({ closeModal }) => {
     const [startDate, setStartDate] = useState('')
     const [errors, setErrors] = useState([])
 
-    console.log(startDate)
     const handleSubmit = async(e) => {
         e.preventDefault()
         const validationErrors = []

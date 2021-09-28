@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal } from '../../context/Modal';
 import EditEvent from './EditEvent';
 
-function EditEventModal({name, eventPic}) {
+function EditEventModal({event}) {
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -10,7 +10,7 @@ function EditEventModal({name, eventPic}) {
       <button onClick={() => setShowModal(true)}>Edit Event</button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
-          <EditEvent closeModal={() => setShowModal(false)} name={name} eventPic={eventPic} />
+          <EditEvent closeModal={() => setShowModal(false)} event={event} />
         </Modal>
       )}
     </>

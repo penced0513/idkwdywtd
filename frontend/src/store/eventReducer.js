@@ -109,7 +109,6 @@ export const postEvent = (eventName, userId, duration, startDate) => async(dispa
     })
     if (res.ok) {
         const event = await res.json()
-        console.log('test', event)
         dispatch(newEvent(event))
         return(event)
     }
@@ -159,8 +158,8 @@ export const destroyAttendee = (eventId, userId) => async(dispatch) => {
     }
 }
 
-export const editEvent = (eventId, eventName, eventPic) => async(dispatch) => {
-    const payload = { eventName, eventPic}
+export const editEvent = (eventId, eventName, eventPic, duration, startDate) => async(dispatch) => {
+    const payload = { eventName, eventPic, duration, startDate}
     const res = await csrfFetch(`/api/events/${eventId}`, {
         method: 'put',
         headers: { 'Content-Type': 'application/json'},
