@@ -100,8 +100,8 @@ export const fetchEvent = (eventId ) => async(dispatch) => {
     }
 }
 
-export const postEvent = (eventName, userId) => async(dispatch) => {
-    const payload = {name: eventName, userId}
+export const postEvent = (eventName, userId, duration, startDate) => async(dispatch) => {
+    const payload = {name: eventName, userId, duration, startDate}
     const res = await csrfFetch(`/api/events/new`, {
         method: 'post',
         headers: { 'Content-Type': 'application/json'},
@@ -109,7 +109,8 @@ export const postEvent = (eventName, userId) => async(dispatch) => {
     })
     if (res.ok) {
         const event = await res.json()
-        dispatch(newEvent(event, userId))
+        console.log('test', event)
+        dispatch(newEvent(event))
         return(event)
     }
 }

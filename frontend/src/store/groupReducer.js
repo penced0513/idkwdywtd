@@ -109,7 +109,7 @@ export const postGroup = (groupName, userId) => async(dispatch) => {
     })
     if (res.ok) {
         const group = await res.json()
-        dispatch(newGroup(group, userId))
+        dispatch(newGroup(group))
         return(group)
     }
 }

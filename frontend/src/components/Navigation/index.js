@@ -5,6 +5,7 @@ import ProfileButton from './ProfileButton';
 import * as sessionActions from '../../store/session';
 import './Navigation.css';
 import CreateGroupModal from '../CreateGroupModal';
+import CreateEventModal from '../CreateEventModal';
 
 function Navigation({ isLoaded }){
   const dispatch = useDispatch()
@@ -37,6 +38,7 @@ function Navigation({ isLoaded }){
         <NavLink exact to="/groups">My Groups</NavLink>
         <NavLink exact to="/events">My Events</NavLink>
         <CreateGroupModal />
+        <CreateEventModal />
         {isLoaded && sessionLinks}
       </li>
     </ul>

@@ -61,10 +61,13 @@ const IndividualGroup = () => {
         // if (group?.owner === sessionUser?.id) await dispatch(fetchPending(groupId))
     }
 
+    const deleteCheck = (userId, owner, currentUserId) => {
+        return currentUserId === owner && userId !== owner
+    }
+
     const pendingMembersContent = (
         <div>
-
-            <UsersList users={pendingMembers2} deleteFunction={handleRemovePending} />
+            <UsersList users={pendingMembers2} deleteFunction={handleRemovePending} deleteCheck={deleteCheck} owner={group?.owner}/>
         </div>
     )
 
@@ -99,8 +102,12 @@ const IndividualGroup = () => {
         setShowPending(false)
     }
 
+    const isLoaded = () => {
+        if (group) return true
+        return null
+    }
 
-    return (
+    return isLoaded() && (
         <div className="group-page-container">
             <div className="group-info-container">
                 <div>
@@ -123,7 +130,7 @@ const IndividualGroup = () => {
                 {
                 !showPending &&  groupMembers &&
                     <div>
-                        <UsersList users={groupMembers} deleteFunction={handleRemoveMember} />
+                        <UsersList users={groupMembers} deleteFunction={handleRemoveMember} deleteCheck={deleteCheck} owner={group.owner}/>
                     </div>
                 }      
                 { 
