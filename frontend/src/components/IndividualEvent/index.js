@@ -21,7 +21,7 @@ const IndividualEvent = () => {
     let attendees, attendeeIds;
     if (event?.Attendees) {
         attendees = Object.values(event.Attendees).map(invite => invite.User)
-        attendeeIds = Object.values(event.Attendees).map(invite => invite.User?.id)
+        attendeeIds = Object.values(event.Attendees).map(invite => invite.userId)
     }
 
 
@@ -42,10 +42,15 @@ const IndividualEvent = () => {
         })()
     }, [dispatch, event, eventId, sessionUser])
 
-        
+
     if (attendeeIds && sessionUser && !(attendeeIds.indexOf(sessionUser.id) !== -1)) {
         return <Redirect to="/events" />
     }
+ 
+    const deleteCheck = (userId, owner, currentUserId) => {
+        return currentUserId === owner && userId !== owner
+    }
+
 
     const handleRemovePending = async(e, userId) => {
         e.preventDefault()
@@ -61,8 +66,7 @@ const IndividualEvent = () => {
 
     const pendingMembersContent = (
         <div>
-
-            <UsersList users={pendingMembers2} deleteFunction={handleRemovePending} />
+            <UsersList users={pendingMembers2} deleteFunction={handleRemovePending} deleteCheck={deleteCheck} owner={event?.host}/>
         </div>
     )
 
@@ -97,8 +101,11 @@ const IndividualEvent = () => {
         setShowPending(false)
     }
 
-
-    return (
+    const isLoaded = () => {
+        if (event) return true
+        return null
+    }
+    return isLoaded() && (
         <div className="group-page-container">
             <div className="group-info-container">
                 <div>
@@ -125,7 +132,7 @@ const IndividualEvent = () => {
                 {
                 !showPending &&  attendees &&
                     <div>
-                        <UsersList users={attendees} deleteFunction={handleRemoveMember} />
+                        <UsersList users={attendees} deleteFunction={handleRemoveMember} deleteCheck={deleteCheck} owner={event.host}/>
                     </div>
                 }      
                 { 

@@ -7,18 +7,22 @@ const router = express.Router();
 
 
 router.post('/new', asyncHandler(async(req,res) => {
-    const {name, userId} = req.body
+    const {name, userId, duration, startDate} = req.body
     const eventPic = "https://www.vhv.rs/dpng/d/487-4871907_grey-x-icon-png-transparent-png.png"
-    const event = await Event.create({owner: userId, name, eventPic})
+    const event = await Event.create({host: userId, name, eventPic, duration, startDate})
 
     await Attendee.create({ userId, eventId: event.id, accepted: true})
 
-    const createdevent = await Event.findByPk(event.id, {
+    const createdEvent = await Event.findByPk(event.id, {
         include: {
-            model: Attendee
+            model: Attendee,
+            include: {
+                model: User
+            }
         }
     })
-    return res.json(createdevent)
+
+    return res.json(createdEvent)
 }))
 
 router.get('/:eventId(\\d+)', asyncHandler(async(req,res) => {

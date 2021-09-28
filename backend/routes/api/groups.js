@@ -15,7 +15,10 @@ router.post('/new', asyncHandler(async(req,res) => {
 
     const createdGroup = await Group.findByPk(group.id, {
         include: {
-            model: GroupMember
+            model: GroupMember,
+            include: {
+                model: User
+            }
         }
     })
     return res.json(createdGroup)
