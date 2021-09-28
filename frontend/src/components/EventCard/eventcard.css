@@ -1,0 +1,31 @@
+.eventcard-eventPic {
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    margin-right: 1em;
+}
+
+.eventcard-name-pic {
+    display: flex;
+    align-items: center;
+}
+
+.eventcard-container {
+    display: flex;
+    align-items: center;
+}
+
+.user-trash-can-div{
+    margin-left: 1em;
+}
+
+.eventcard-eventname {
+    text-decoration: none;
+    color: black;
+	font-size: 2em; 
+    margin-top: 0.67em; 
+    margin-bottom: 0.67em; 
+    margin-left: 0; 
+    margin-right: 0; 
+    font-weight: bold;
+}
