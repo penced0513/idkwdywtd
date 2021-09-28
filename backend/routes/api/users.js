@@ -82,4 +82,6 @@ router.get('/:userId/events', asyncHandler(async(req,res) => {
 
   return res.json(groupmember)
 }))
+
+
   module.exports = router;

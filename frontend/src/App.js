@@ -10,6 +10,7 @@ import Events from "./components/Events"
 import IndividualGroup from "./components/IndividualGroup";
 import ProtectedRoute from "./components/ProtectedRoute";
 import IndividualEvent from "./components/IndividualEvent";
+import CurrentUserHome from "./components/CurrentUserHome";
 
 function App() {
   const dispatch = useDispatch();
@@ -40,6 +41,9 @@ function App() {
           </ProtectedRoute>
           <ProtectedRoute path="/events/:eventId">
             <IndividualEvent />
+          </ProtectedRoute>
+          <ProtectedRoute path="/" exact>
+            <CurrentUserHome />
           </ProtectedRoute>
         </Switch>
       )}
