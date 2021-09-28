@@ -7,7 +7,7 @@ import EventCard from "../EventCard";
 
 export default function Groups() {
     const dispatch = useDispatch()
-    const events = useSelector((state) => Object.values(state.events).sort( (a,b) => a.date < b.date ? 1 : -1))
+    const events = useSelector((state) => Object.values(state.events).sort( (a,b) => a.startDate < b.startDate ? -1 : 1))
     const sessionUser = useSelector((state) => state.session.user)
 
     useEffect(() => {

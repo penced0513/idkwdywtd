@@ -8,8 +8,8 @@ import EventCard from '../EventCard';
 function CurrentUserHome() {
     const dispatch = useDispatch()
     const sessionUser = useSelector(state => state.session.user)
-    const events = useSelector((state) => Object.values(state.events).sort( (a,b) => a.date < b.date ? 1 : -1)).slice(0,5)
-
+    const events = useSelector((state) => Object.values(state.events).sort( (a,b) => a.startDate < b.startDate ? -1 : 1)).slice(0,5)
+    console.log(events)
     useEffect(() => {
         (async () => {
             await dispatch(fetchUsers())
@@ -19,7 +19,8 @@ function CurrentUserHome() {
 
     return (
         <div>
-            <h1>Welcome {sessionUser.username}</h1>
+            <img className="group-groupPic" src={sessionUser.profilePic}></img>
+            <h1>Welcome back, {sessionUser.username}</h1>
             <div>
                 <h2>Upcoming Events</h2>
                 {events?.map(event => <EventCard key={event.id} event={event} />)}
