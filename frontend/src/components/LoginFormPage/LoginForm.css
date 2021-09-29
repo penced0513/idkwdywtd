@@ -81,10 +81,10 @@ body, #root, html {
     padding: 0.5em 0;
 }
 
-.login-paragraph {
+/* .login-paragraph {
     /* margin-bottom: 0;
-    padding-bottom: 0; */
-}
+    padding-bottom: 0; 
+} */
 
 .login-error {
     list-style: none;   
