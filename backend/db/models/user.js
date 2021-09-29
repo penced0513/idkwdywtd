@@ -8,7 +8,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [3, 30],
+        len: {
+          args: [3, 12],
+          msg: "Can not be longer than 12 characters"
+        },
         isNotEmail(value) {
           if (Validator.isEmail(value)) {
             throw new Error('Cannot be an email.');
@@ -20,12 +23,15 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [3, 256]
+        len: {
+          args: [3, 256],
+          msg: "Can not be longer than 256 characters"
+        }
       },
     },
     profilePic: {
       type: DataTypes.TEXT,
-      allowNull: false
+      allowNull: false,
     },
     hashedPassword: {
       type: DataTypes.STRING.BINARY,
