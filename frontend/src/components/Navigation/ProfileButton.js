@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from 'react-redux';
+import { eventsLogout } from "../../store/eventReducer";
 import { groupsLogout } from "../../store/groupReducer";
 import * as sessionActions from '../../store/session';
 
@@ -29,6 +30,7 @@ function ProfileButton({ user }) {
     e.preventDefault();
     dispatch(sessionActions.logout());
     dispatch(groupsLogout())
+    dispatch(eventsLogout())
   };
 
   return (

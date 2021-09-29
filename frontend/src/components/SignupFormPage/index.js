@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, NavLink } from "react-router-dom";
 import * as sessionActions from "../../store/session";
+import github from "../../images/github.png"
 
 import './SignupForm.css';
 
@@ -30,49 +31,63 @@ function SignupFormPage() {
     return setErrors(['Confirm Password field must be the same as the Password field']);
   };
 
+  function loginDemo (e) {
+    e.preventDefault()
+    return dispatch(sessionActions.login({ credential:"demo@user.io", password:"password" }))
+  };
+
   return (
-    <form onSubmit={handleSubmit}>
-      <ul>
-        {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-      </ul>
-      <label>
-        Email
+    <div className="login-page-container">
+      <div className="signup-content-container">
+        <h2 className="login-header">Welcome</h2>
+        <p className="login-paragraph"> Stop asking what do you want to do, and just go figure it out instead!</p>
+        <div className="login-form-container">
+          <form className="login-form" onSubmit={handleSubmit}>
+            <ul className="login-error-ul">
+              {errors && <li className="login-error" key={errors[0]}>{errors[0]}</li>}
+            </ul>
         <input
+          placeholder="Email"
           type="text"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
-      </label>
-      <label>
-        Username
         <input
+          placeholder="Username"
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
         />
-      </label>
-      <label>
-        Password
         <input
+          placeholder="Password"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-      </label>
-      <label>
-        Confirm Password
         <input
+          placeholder="Confirm Password"
           type="password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
           required
         />
-      </label>
-      <button type="submit">Sign Up</button>
-    </form>
+            <button type="submit">Log In</button>
+          </form>
+        </div>
+        <div className="login-signup-link">
+          <p>Already have an account?</p> <NavLink to="/login">Log In</NavLink>
+        </div>
+        <div className="login-signup-link">
+          <p>Afraid of committment?</p> <NavLink to="" onClick={loginDemo}>Try Our Demo</NavLink>
+        </div>
+      </div>
+      <div className='about-me-section'>
+        <a href='https://github.com/penced0513' ><img src={github} alt=''/></a>
+      </div>
+    </div>
   );
 }
 

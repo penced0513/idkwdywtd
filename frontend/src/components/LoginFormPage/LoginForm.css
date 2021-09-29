@@ -1,0 +1,124 @@
+body, #root, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.login-page-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    background-image: url(https://stocksnap.io/img/inline-feature-bg.jpg?1496102021);
+    background-size: cover;
+}
+
+.login-content-container {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+    background-color: grey;
+    height: 310px;
+    align-self: center;
+}
+.signup-content-container {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+    background-color: grey;
+    height: 400px;
+    align-self: center;
+}
+
+.login-signup-link {
+    display: flex;
+    text-align: center;
+    padding-top: 1em;
+    align-self: center;
+}
+
+.login-signup-link > p {
+    margin: 0;
+    padding-right: 0.25em;
+}
+
+.login-signup-link > a {
+    color: blue;
+    text-decoration: none;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column; 
+}
+
+.login-header {
+    margin: 0;
+}
+
+.login-form > input {
+    margin-bottom: 1em;
+    width: 50%;
+    align-self: center;
+    padding: 0.5em 0;
+}
+
+.login-form > input::placeholder {
+    padding-left: 0.5em;
+    color: black
+}
+
+.login-form > button {
+    background-color: #f08;
+    width: 50%;
+    align-self: center;
+    color: white;
+    font-weight: bold;
+    padding: 0.5em 0;
+}
+
+/* .login-paragraph {
+    /* margin-bottom: 0;
+    padding-bottom: 0; 
+} */
+
+.login-error {
+    list-style: none;   
+    align-self: center;
+    width: 100%;
+    color: red;
+}
+
+.login-error-ul {
+    padding: 0;
+    margin: 0;
+    height: 20px;
+}
+
+.about-me-section img{
+    object-fit: cover;
+    border-radius: 50%;
+    align-self: center;
+    justify-self: center;
+}
+
+.about-me-section{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    text-align: center;
+    position: absolute;
+    right: 45%;
+    bottom: 0;
+    width: 10%;
+}
+
+.about-me-section a{
+    align-self: center;
+    justify-self: center;
+    height: fit-content;
+}
