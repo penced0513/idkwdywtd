@@ -19,7 +19,7 @@ function CurrentUserHome() {
 
     return (
         <div>
-            <img className="group-groupPic" src={sessionUser.profilePic}></img>
+            <img className="group-groupPic" src={sessionUser.profilePic} alt="profile"></img>
             <h1>Welcome back, {sessionUser.username}</h1>
             <div>
                 <h2>Upcoming Events</h2>
