@@ -1,0 +1,21 @@
+.groups-list {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+}
+
+.groups-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.groups-container > h1 {
+    text-align: center;
+}
+
+.groups-groupcard {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    width: 100%;
+    padding-bottom: 1.5em;
+}

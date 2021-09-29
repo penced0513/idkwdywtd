@@ -202,6 +202,7 @@ const groupReducer = ( state= initialState, action) => {
     switch (action.type) {
         case GET_GROUPS: 
             Object.values(action.groups).forEach(group => {
+                group.Group['joined_at'] = group.updatedAt
                 newState[group.Group.id] = group.Group
             })
             return newState
