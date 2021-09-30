@@ -1,5 +1,18 @@
 'use strict';
+const faker = require('faker');
+const additionalGroupMembers = []
 
+for (let i = 0; i < 250 ; i++) {
+  
+  
+  const group = {
+    groupId: faker.datatype.number({ min:1, max: 31}),
+    userId: faker.datatype.number({ min:1, max: 57}),
+    accepted: i % 2 ? true : null,
+  };
+
+  additionalGroupMembers.push(group)
+}
 module.exports = {
   up: (queryInterface, Sequelize) => {
     /*
@@ -28,6 +41,7 @@ module.exports = {
         userId:4,
         accepted: true
       },
+      ...additionalGroupMembers
     ], {});
   },
 

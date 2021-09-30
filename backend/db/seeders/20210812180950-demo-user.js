@@ -2,7 +2,6 @@
 const faker = require('faker');
 const bcrypt = require('bcryptjs');
 const {randomArr} = require('./randomImages/randomimages')
-// import { randomArr } from './randomImages/randomimages'
 const additionalUsers = []
 
 for (let i = 0; i < 50 ; i++) {

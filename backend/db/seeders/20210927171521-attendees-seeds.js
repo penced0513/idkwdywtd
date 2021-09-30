@@ -1,5 +1,18 @@
 'use strict';
+const faker = require('faker');
+const additionalAttendees = []
 
+for (let i = 0; i < 250 ; i++) {
+  
+  
+  const attendee = {
+    eventId: faker.datatype.number({ min:1, max: 31}),
+    userId: faker.datatype.number({ min:1, max: 57}),
+    accepted: i % 2 ? true : null,
+  };
+
+  additionalAttendees.push(attendee)
+}
 module.exports = {
   up: (queryInterface, Sequelize) => {
     /*
@@ -13,7 +26,8 @@ module.exports = {
           userId: 1,
           eventId: 1,
           accepted: true
-        }
+        },
+        ...additionalAttendees
     ], {});
   },
 
