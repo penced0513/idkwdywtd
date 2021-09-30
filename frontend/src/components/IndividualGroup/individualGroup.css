@@ -2,10 +2,25 @@
     border-radius: 50%;
     height: 200px;
     width: 200px;
+    align-self: center;
+    justify-self: center;
 }
 
 .group-info-container {
     display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+.event-duration {
+    color: #03dAC5
+}
+
+.event-startdate {
+    color: lightgray;
 }
 
 .group-groupname { 
@@ -16,4 +31,32 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.edit-delete-group-container {
+    position: absolute;
+    right: 25%;
+}
+
+.edit-delete-group-container *{
+    margin-left: 1em;
+    background-color: #121212;
+    border: none;
+    color: #bb86fc;
+    font-weight: bold;
+}
+
+.edit-delete-group-container button:hover {
+    cursor: pointer;
+}
+
+.group-pending-invite-section button {
+    background-color: #121212;
+    border: none;
+    color: #03dAC5;
+    font-weight: bold;
+}
+
+.group-pending-invite-section button:hover {
+    cursor: pointer;
 }

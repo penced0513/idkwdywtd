@@ -41,7 +41,7 @@ const CreateEvent = ({ closeModal }) => {
             <h1>Create an Event</h1>
             <form className="create-event-form" onSubmit={handleSubmit}>
                 <ul className="signup-errors-container">
-                    {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+                    {errors.map((error, idx) => <li className="login-error" key={idx}>{error}</li>)}
                 </ul>
                 <div>
                     <label>

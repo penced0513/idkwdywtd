@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { editGroup } from '../../store/groupReducer';
+import './editgroup.css'
 
 const EditGroup = ({ closeModal, name:groupName, groupPic }) => {
 
@@ -49,32 +50,38 @@ const EditGroup = ({ closeModal, name:groupName, groupPic }) => {
     } 
 
     return (
-        <div>
+        <div className="create-event-container">
             <h1>Edit Your Group</h1>
-            <form onSubmit={handleSubmit}>
+            <form className="create-event-form" onSubmit={handleSubmit}>
                 <ul className="signup-errors-container">
-                    {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+                    {errors.map((error, idx) => <li className="login-error" key={idx}>{error}</li>)}
                 </ul>
+                <div>
                 <label>
                     Name
+                </label>
                     <input
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
                     />
-                </label>
-                <label>
-                    Group Picture
-                    <input
-                    type="text"
-                    required
-                    value={imageUrl}
-                    onChange={((e) => setImageUrl(e.target.value))}
-                    />
-                </label>
-                <button type="submit">Save Changes</button>
-                <button onClick={handleCancel}>Cancel</button>
+                </div>
+                <div>
+                    <label>
+                        Group Picture
+                    </label>
+                        <input
+                        type="text"
+                        required
+                        value={imageUrl}
+                        onChange={((e) => setImageUrl(e.target.value))}
+                        />
+                </div>
+                <div id="edit-group-btn-container">
+                    <button className="edit-group-submit" type="submit">Save Changes</button>
+                    <button className="edit-group-cancel" onClick={handleCancel}>Cancel</button>
+                </div>
             </form>
         </div>
     )

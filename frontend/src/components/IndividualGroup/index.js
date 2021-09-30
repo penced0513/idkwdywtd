@@ -109,22 +109,23 @@ const IndividualGroup = () => {
 
     return isLoaded() && (
         <div className="group-page-container">
+            <div className="edit-delete-group-container">
+                {sessionUser?.id === group?.owner && <EditGroupModal name={group.name} groupPic={group.groupPic}/>}
+                {deleteContent}
+            </div>
             <div className="group-info-container">
                 <div>
                     <img alt="group" className="group-groupPic" src={group?.groupPic} />
                     <h1 className="group-groupname">{group?.name}</h1>
-                    {sessionUser?.id === group?.owner && <EditGroupModal name={group.name} groupPic={group.groupPic}/>}
-                    {deleteContent}
                 </div>
             </div>
-            <div className="">
-                <div>
-                    {sessionUser?.id === group?.owner && <InviteGroupModal setPendingMembers2={setPendingMembers2}/>}
-
-                </div>
+            <div className="group-pending-invite-section">
                     {showPending ? <h1>Pending Invites</h1> : <h1>Joined Members</h1>}
-                    {sessionUser?.id === group?.owner && !showPending && <button onClick={e => handleShowPending(e)}>Show Pending</button>}
-                    {sessionUser?.id === group?.owner && showPending && <button onClick={e => handleHidePending(e)}>Hide Pending</button>}
+                    <div className="invite-pending-div">
+                        {sessionUser?.id === group?.owner && <InviteGroupModal setPendingMembers2={setPendingMembers2}/>}
+                        {sessionUser?.id === group?.owner && !showPending && <button className="show-pending-btn" onClick={e => handleShowPending(e)}>Show Pending</button>}
+                        {sessionUser?.id === group?.owner && showPending && <button onClick={e => handleHidePending(e)}>Hide Pending</button>}
+                    </div>
             </div>
             <div>
                 {

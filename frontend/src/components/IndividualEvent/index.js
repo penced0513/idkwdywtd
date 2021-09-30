@@ -107,26 +107,26 @@ const IndividualEvent = () => {
     }
     return isLoaded() && (
         <div className="group-page-container">
-            <div className="group-info-container">
-                <div>
-                    <img alt="event" className="group-groupPic" src={event?.eventPic} />
-                    <h1 className="event-eventname">{event?.name}</h1>
-                    {sessionUser?.id === event?.host && <EditEventModal event={event}/>}
-                    {deleteContent}
-                    <h2>{event?.duration > 1 ? event?.duration + " days" : event?.duration + " day"} </h2>
-                </div>
+            <div className="edit-delete-group-container">
+                {sessionUser?.id === event?.host && <EditEventModal event={event}/>}
+                {deleteContent}
             </div>
-            <div>
-                <h2>{event && new Date(event.startDate).toDateString()}</h2>
+            <div className="group-info-container">
+                    <img alt="event" className="group-groupPic" src={event?.eventPic} />
+                    <h1 className="group-groupname">{event?.name}</h1>
+                    <h2 className="event-duration">Duration: {event?.duration > 1 ? event?.duration + " days" : event?.duration + " day"} </h2>
+                    <h2 className="event-startdate">Start Date: {event && new Date(event.startDate).toDateString()}</h2>
             </div>
             <div>
                 {event?.totalCost && <h2>Total Cost: {event.totalCost}</h2>}
             </div>
-            <div className="">
+            <div className="group-pending-invite-section">
                     {showPending ? <h1>Pending Invites</h1> : <h1>Joined Members</h1>}
-                    {sessionUser?.id === event?.host && <InviteEventModal setPendingMembers2={setPendingMembers2}/>}
-                    {sessionUser?.id === event?.host && !showPending && <button onClick={e => handleShowPending(e)}>Show Pending</button>}
-                    {sessionUser?.id === event?.host && showPending && <button onClick={e => handleHidePending(e)}>Hide Pending</button>}
+                    <div className="invite-pending-div">
+                        {sessionUser?.id === event?.host && <InviteEventModal setPendingMembers2={setPendingMembers2}/>}
+                        {sessionUser?.id === event?.host && !showPending && <button onClick={e => handleShowPending(e)}>Show Pending</button>}
+                        {sessionUser?.id === event?.host && showPending && <button onClick={e => handleHidePending(e)}>Hide Pending</button>}
+                    </div>
             </div>
             <div>
                 {

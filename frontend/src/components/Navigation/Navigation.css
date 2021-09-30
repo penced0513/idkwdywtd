@@ -1,0 +1,33 @@
+.navbar {
+    height: 5%;
+    background-color: #bb86fc;
+    display: flex;
+    justify-content: space-around;
+    align-content: center;
+    margin-bottom: 0.5em;
+}
+
+.navbar > div {
+    display: flex;
+    height: 100%;
+    align-items: center;
+}
+
+.navbar a {
+    height: fit-content;
+    color: #000000;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.navbar button {
+    background-color: #bb86fc;
+    border: none;
+    font-weight: bold;
+    font-size: 16px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.navbar button:hover {
+    cursor: pointer;
+}
