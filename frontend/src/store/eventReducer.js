@@ -172,18 +172,34 @@ export const editEvent = (eventId, eventName, eventPic, duration, startDate) => 
     }
 }
 
-export const destroyEvent = (eventId) => async(dispatch) => {
+export const destroyEvent = (eventId, invite) => async(dispatch) => {
 
-    const res = await csrfFetch(`/api/events/${eventId}`, {
-        method: "DELETE"
+    if (!invite) {
+        
+        const res = await csrfFetch(`/api/events/${eventId}`, {
+            method: "DELETE"
+        })
+    
+        if (res.ok) {
+            dispatch(deleteEvent(eventId))
+            return true
+        }
+        return
+    }
+    dispatch(deleteEvent(eventId))
+}
+export const attendEvent = (eventId, userId) => async(dispatch) => {
+    const res = await csrfFetch(`/api/events/${eventId}/attend`, {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json'},
+        body: JSON.stringify({userId})
     })
 
     if (res.ok) {
-        dispatch(deleteEvent(eventId))
-        return true
+        const event = await res.json()
+        if (event) dispatch(getEvent(event))
     }
 }
-
 export const leaveEvent = (eventId, userId) => async(dispatch) => {
     const res = await csrfFetch(`/api/events/${eventId}/leave`, {
         method: "POST",

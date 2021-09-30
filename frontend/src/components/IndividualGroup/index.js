@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Redirect, useParams } from "react-router"
-import { destroyGroup, destroyGroupInvite, destroyGroupMember, fetchGroup, fetchPending, leaveGroup } from "../../store/groupReducer";
+import { destroyGroup, destroyGroupInvite, destroyGroupMember, fetchGroup, fetchPending, joinGroup, leaveGroup } from "../../store/groupReducer";
 import { useHistory } from "react-router-dom"
 import EditGroupModal from "../EditGroupModal";
 import InviteGroupModal from "../InviteGroupModal";
 import { fetchUsers } from "../../store/userReducer";
 import './individualGroup.css'
 import UsersList from "../UsersList";
+import { destroyUserGroupInvite } from "../../store/inviteReducer";
 
 const IndividualGroup = () => {
     const dispatch = useDispatch()
@@ -18,6 +19,7 @@ const IndividualGroup = () => {
     const pending = useSelector((state) => state.groups[groupId]?.pending)
     const [pendingMembers2, setPendingMembers2] = useState([])
     const [showPending, setShowPending] = useState(false)
+    const invited = useSelector(state => state.invites.groups[groupId])
 
     let groupMembers, groupMemberIds;
     if (group?.GroupMembers) {
@@ -25,7 +27,11 @@ const IndividualGroup = () => {
         groupMemberIds = Object.values(group.GroupMembers).map(invite => invite.User?.id)
     }
 
-
+    let pendingIds
+    if (pendingMembers2) {
+        pendingIds = pendingMembers2.map(pending => pending.id)
+    }
+    
     useEffect(() => {
         (async () => {
             await dispatch(fetchGroup(groupId));
@@ -35,16 +41,14 @@ const IndividualGroup = () => {
 
     useEffect( () => {
         (async () => {
-            if (group?.owner === sessionUser?.id) {
-                setPendingMembers2([])
-                const pendingInvites = await dispatch(fetchPending(groupId))
-                setPendingMembers2(pendingInvites.map(invite => invite.User))
-            }
+            setPendingMembers2([])
+            const pendingInvites = await dispatch(fetchPending(groupId))
+            setPendingMembers2(pendingInvites.map(invite => invite.User))
         })()
     }, [dispatch, group, groupId, sessionUser])
 
         
-    if (groupMemberIds && sessionUser && !(groupMemberIds.indexOf(sessionUser.id) !== -1)) {
+    if (groupMemberIds && sessionUser && pendingIds.length && (groupMemberIds.indexOf(sessionUser.id) === -1 && pendingIds.indexOf(sessionUser.id) === -1)) {
         return <Redirect to="/groups" />
     }
 
@@ -58,7 +62,6 @@ const IndividualGroup = () => {
         e.preventDefault()
         await dispatch(destroyGroupMember(groupId, userId))
         await dispatch(fetchGroup(groupId));
-        // if (group?.owner === sessionUser?.id) await dispatch(fetchPending(groupId))
     }
 
     const deleteCheck = (userId, owner, currentUserId) => {
@@ -78,13 +81,13 @@ const IndividualGroup = () => {
     }
     const handleLeave = async(e) => {
         e.preventDefault()
-        await dispatch(leaveGroup(groupId, sessionUser.id))
         history.push("/groups")
+        await dispatch(leaveGroup(groupId, sessionUser.id))
     }
 
     
     let deleteContent;
-    if (sessionUser && group) {
+    if (sessionUser && group && !invited) {
         if(sessionUser.id === group.owner) {
             deleteContent = <button onClick={handleDelete}>Delete Group</button>
         } else {
@@ -107,11 +110,26 @@ const IndividualGroup = () => {
         return null
     }
 
+    const handleAccept= async(e) => {
+        e.preventDefault()
+        await dispatch(joinGroup(groupId, sessionUser.id))
+        await dispatch(destroyUserGroupInvite(sessionUser.id, groupId, true))
+    }
+
+    const handleDecline = async(e) => {
+        e.preventDefault()
+        await dispatch(destroyUserGroupInvite(sessionUser.id, groupId, false))
+        history.push('/groups')
+        await dispatch(destroyGroup(groupId, true))
+    }
+
     return isLoaded() && (
         <div className="group-page-container">
             <div className="edit-delete-group-container">
                 {sessionUser?.id === group?.owner && <EditGroupModal name={group.name} groupPic={group.groupPic}/>}
                 {deleteContent}
+                { (groupMemberIds?.indexOf(sessionUser?.id) === -1 && invited) && <button onClick={handleAccept}>Accept Invitation</button>}
+                { (groupMemberIds?.indexOf(sessionUser?.id) === -1 && invited) && <button onClick={handleDecline}>Decline Invitation</button>}
             </div>
             <div className="group-info-container">
                 <div>

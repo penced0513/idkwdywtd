@@ -156,4 +156,26 @@ router.post('/:groupId(\\d+)/remove', asyncHandler(async(req,res) => {
 
 }))
 
+router.post('/:groupId(\\d+)/join', asyncHandler(async(req,res) => {
+    const { userId } = req.body
+    const { groupId } = req.params
+    const groupmember = await GroupMember.findOne({where: {groupId, userId}})
+    groupmember.accepted = true
+    await groupmember.save()
+
+    const group = await Group.findByPk(groupId, {
+        include: {
+            model: GroupMember,
+            where: {
+                accepted: true
+            },
+            include: {
+                model: User
+            },
+        }
+    })
+
+    return res.json(group)
+}))
+
 module.exports = router;

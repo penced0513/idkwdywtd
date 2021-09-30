@@ -89,6 +89,28 @@ router.post('/:eventId(\\d+)/leave', asyncHandler(async(req,res) => {
     return res.json("Deleted")
 }))
 
+router.post('/:eventId(\\d+)/attend', asyncHandler(async(req,res) => {
+    const { userId } = req.body
+    const { eventId } = req.params
+    const attendee = await Attendee.findOne({where: {eventId, userId}})
+    attendee.accepted = true
+    await attendee.save()
+
+    const event = await Event.findByPk(eventId, {
+        include: {
+            model: Attendee,
+            where: {
+                accepted: true
+            },
+            include: {
+                model: User
+            },
+        }
+    })
+
+    return res.json(event)
+}))
+
 router.get('/:eventId(\\d+)/pending', asyncHandler(async(req, res) => {
 
     const {eventId} = req.params
