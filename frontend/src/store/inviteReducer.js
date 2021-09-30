@@ -1,5 +1,4 @@
 import { csrfFetch } from "./csrf"
-import { deleteEvent } from "./eventReducer"
 
 const GET_GROUP_INVITES = 'invites/getGroupInvites'
 const REMOVE_GROUP_INVITE = 'invites/removeGroupInvite'
