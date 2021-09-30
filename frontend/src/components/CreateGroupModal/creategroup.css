@@ -7,10 +7,43 @@
 .create-group-form {
     display: flex;
     flex-direction: column;
+    text-align: center;
 }
 
 
 .create-group-form > input::placeholder {
     padding-left: 0.5em;
-    color: black
+    color: #bb86fc
 }
+
+.create-group-form > input {
+    margin-bottom: 1em;
+    border-color: #bb86fc;
+    background-color: #121212;
+    color: #bb86fc;
+    padding-left: 0.5em;
+}
+
+.create-group-form > button {
+    background-color: #BB86fc;
+    border-radius: 6px;
+    width: 50%;
+    align-self: center;
+    color: black;
+    font-weight: bold;
+    padding: 0.5em 0;
+}
+
+.signup-errors-container {
+    margin: 0;
+    padding: 0;
+    margin-bottom: 0.5em;
+}
+
+input:focus {
+    outline-width: 0;
+}
+
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }

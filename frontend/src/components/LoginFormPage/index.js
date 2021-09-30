@@ -36,7 +36,7 @@ function LoginFormPage() {
     <div className="login-page-container">
       <div className="login-info-section">
         <h2 className="login-info-header">Welcome Back</h2>
-        <p className="login-paragraph"> Stop saying I don't know what do you want to do</p>
+        <p className="login-paragraph"> Stop asking I Don't Know What Do You Want To Do?</p>
         <p> Just go there instead!</p>
         <div className="login-signup-link">
           <p>New to Idkwdywtd?</p> <NavLink to="/signup">Join Now</NavLink>
@@ -46,7 +46,7 @@ function LoginFormPage() {
         </div>
       </div>
       <div className="login-content-container">
-      <h2 className="login-header">Sign In</h2>
+      <h2 className="login-header">Log In</h2>
         <div className="login-form-container">
           <form className="login-form" onSubmit={handleSubmit}>
             <ul className="login-error-ul">

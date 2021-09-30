@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { postEvent } from '../../store/eventReducer';
+import './createevent.css'
 
 const CreateEvent = ({ closeModal }) => {
     
@@ -36,39 +37,46 @@ const CreateEvent = ({ closeModal }) => {
         
     }
     return (
-        <div>
+        <div className="create-event-container">
             <h1>Create an Event</h1>
-            <form onSubmit={handleSubmit}>
+            <form className="create-event-form" onSubmit={handleSubmit}>
                 <ul className="signup-errors-container">
                     {errors.map((error, idx) => <li key={idx}>{error}</li>)}
                 </ul>
-                <label>
-                    Name
+                <div>
+                    <label>
+                        Name
+                    </label>
                     <input
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
                     />
-                </label>
-                <label>
-                    Duration (in days)
+                </div>
+                <div>
+                    <label>
+                        Duration (in days)
+                    </label>
                     <input
                     type="number"
                     value={duration}
                     onChange={(e) => setDuration(e.target.value)}
                     required
                     />
-                </label>
-                <label>
-                    Start Date
+                </div>
+                <div>
+                    <label>
+                        Start Date
+                    </label>
                     <input
+                    className="calendar-input"
                     type="Date"
                     value={startDate}
                     onChange={(e) => setStartDate(e.target.value)}
                     required
                     />
-                </label>
+                </div>
                 <button className="signup-submit" type="submit">Create Event</button>
             </form>
         </div>

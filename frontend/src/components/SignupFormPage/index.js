@@ -40,10 +40,10 @@ function SignupFormPage() {
     <div className="login-page-container">
       <div className="login-info-section">
         <h2 className="login-info-header">Hello Friend</h2>
-        <p className="login-paragraph"> Stop saying I don't know what do you want to do</p>
+        <p className="login-paragraph"> Stop asking I Don't Know What Do You Want To Do?</p>
         <p> Just go there instead!</p>
         <div className="login-signup-link">
-          <p>New to Idkwdywtd?</p> <NavLink to="/signup">Create Account</NavLink>
+          <p>Been here before?</p> <NavLink to="/login">Log In</NavLink>
         </div>
         <div className="login-signup-link">
           <p>Afraid of committment?</p> <NavLink to="" onClick={loginDemo}>Try Our Demo</NavLink>
