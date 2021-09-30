@@ -1,8 +1,8 @@
 .invite-users-grid {
     display: grid;
     grid-template-columns: repeat(3,1fr);
-    grid-template-rows: repeat(minmax(0,5), 1fr);
     overflow-y: scroll;
+    max-height: 500px;
 }
 
 .invite-users-grid::-webkit-scrollbar {

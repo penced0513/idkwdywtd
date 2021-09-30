@@ -41,3 +41,14 @@
     font-weight: bold;
     padding: 0.5em 0;
 }
+
+.purple-btn {
+    background-color: #BB86fc;
+    border-radius: 6px;
+    width: 10%;
+    align-self: center;
+    color: black;
+    font-weight: bold;
+    padding: 0.5em 0; 
+    margin-left: 1em;
+}

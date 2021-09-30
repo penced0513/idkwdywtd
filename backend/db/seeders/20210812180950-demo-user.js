@@ -1,6 +1,22 @@
 'use strict';
 const faker = require('faker');
 const bcrypt = require('bcryptjs');
+const {randomArr} = require('./randomImages/randomimages')
+// import { randomArr } from './randomImages/randomimages'
+const additionalUsers = []
+
+for (let i = 0; i < 50 ; i++) {
+  
+  
+  const user = {
+    email: faker.internet.email(),
+    username: faker.internet.userName(),
+    hashedPassword: bcrypt.hashSync(faker.internet.password()),
+    profilePic: randomArr[i]
+  };
+
+  additionalUsers.push(user)
+}
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
@@ -47,6 +63,7 @@ module.exports = {
         hashedPassword: bcrypt.hashSync('password'),
         profilePic: "https://sociology.columbia.edu/themes/custom/columbia/assets/img/people-default.svg",
       },
+      ...additionalUsers
     ], {});
   },
 

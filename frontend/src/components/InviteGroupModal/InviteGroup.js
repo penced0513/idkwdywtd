@@ -33,7 +33,7 @@ const InviteGroup = ({ closeModal, setPendingMembers2 }) => {
         <div>
             <h1>Invite a User</h1>
             <div className="invite-users-grid">
-            {users && groupMemberIds && Object.values(users).map(user => {
+            {users && groupMemberIds && Object.values(users).sort( (a,b) => a.username > b.username ? 1 : -1).map(user => {
                 
                 if (!(groupMemberIds.indexOf(user.id) !== -1 || 
                 pendingMembersIds.indexOf(user.id) !== -1)) {
@@ -51,7 +51,7 @@ const InviteGroup = ({ closeModal, setPendingMembers2 }) => {
             >
                 <option value={-1}> Please Select a User</option>
                 {users && groupMemberIds &&  (
-                        Object.values(users).map(user => {
+                        Object.values(users).sort( (a,b) => a.username > b.username ? 1 : -1).map(user => {
                             if (!(groupMemberIds.indexOf(user.id) !== -1 || 
                             pendingMembersIds.indexOf(user.id) !== -1)) {
                                 return (
@@ -65,7 +65,7 @@ const InviteGroup = ({ closeModal, setPendingMembers2 }) => {
                         }))
                 }
             </select>
-            <button onClick={handleInvite}>Invite</button>
+            <button className="purple-btn" onClick={handleInvite}>Invite</button>
         </div>
     )
 }
