@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { Modal } from '../../context/Modal';
 import CreateEvent from './CreateEvent';
 
-function CreateEventModal() {
+function CreateEventModal({title}) {
   const [showModal, setShowModal] = useState(false);
 
   return (
     <>
-      <button onClick={() => setShowModal(true)}>Create Event</button>
+      <button onClick={() => setShowModal(true)}>{title}</button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
           <CreateEvent closeModal={() => setShowModal(false)}/>

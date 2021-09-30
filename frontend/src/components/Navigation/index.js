@@ -1,7 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import ProfileButton from './ProfileButton';
 import './Navigation.css';
 import CreateGroupModal from '../CreateGroupModal';
 import CreateEventModal from '../CreateEventModal';
@@ -27,8 +26,8 @@ function Navigation({ isLoaded }){
         <div><NavLink to="/">Home</NavLink></div>
         <div><NavLink exact to="/groups">My Groups</NavLink></div>
         <div><NavLink exact to="/events">My Events</NavLink></div>
-        <div><CreateGroupModal /></div>
-        <div><CreateEventModal /></div>
+        <div><CreateGroupModal title="Create Group"/></div>
+        <div><CreateEventModal title="Create Event"/></div>
         <div><button onClick={logout}>Log Out</button></div>
       </div>
     );

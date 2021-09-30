@@ -24,3 +24,11 @@
 .upcoming-events-container > h2 {
     text-align: center;
 }
+
+.recent-groups-container > div {
+    text-align: center;
+}
+
+.upcoming-events-container > div {
+    text-align: center;
+}
