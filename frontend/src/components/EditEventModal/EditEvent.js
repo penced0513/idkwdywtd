@@ -51,50 +51,61 @@ const EditEvent = ({ closeModal, event }) => {
     } 
 
     return (
-        <div>
+        <div className="create-event-container">
             <h1>Edit Your Event</h1>
-            <form onSubmit={handleSubmit}>
+            <form className="create-event-form" onSubmit={handleSubmit}>
                 <ul className="signup-errors-container">
-                    {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+                    {errors.map((error, idx) => <li className="login-error" key={idx}>{error}</li>)}
                 </ul>
-                <label>
-                    Name
-                    <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    required
-                    />
-                </label>
-                <label>
-                    Event Picture
-                    <input
-                    type="text"
-                    required
-                    value={imageUrl}
-                    onChange={((e) => setImageUrl(e.target.value))}
-                    />
-                </label>
-                <label>
-                    Duration (in days)
-                    <input
-                    type="number"
-                    value={duration}
-                    onChange={(e) => setDuration(e.target.value)}
-                    required
-                    />
-                </label>
-                <label>
-                    Start Date
-                    <input
-                    type="Date"
-                    value={startDate}
-                    onChange={(e) => setStartDate(e.target.value)}
-                    required
-                    />
-                </label>
-                <button type="submit">Save Changes</button>
-                <button onClick={handleCancel}>Cancel</button>
+                <div>
+                    <label>
+                        Name
+                    </label>
+                        <input
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        required
+                        />
+                </div>
+                <div>
+                    <label>
+                        Event Picture
+                    </label>
+                        <input
+                        type="text"
+                        required
+                        value={imageUrl}
+                        onChange={((e) => setImageUrl(e.target.value))}
+                        />
+                </div>
+                <div>
+                    <label>
+                        Duration (in days)
+                    </label>
+                        <input
+                        type="number"
+                        value={duration}
+                        onChange={(e) => setDuration(e.target.value)}
+                        required
+                        />
+                </div>
+                <div>
+                    <label>
+                        Start Date
+                    </label>
+                        <input
+                        className="calendar-input"
+                        type="Date"
+                        value={startDate}
+                        onChange={(e) => setStartDate(e.target.value)}
+                        required
+                        />
+                </div>
+                <div id="edit-group-btn-container">
+                    <button className="edit-group-submit" type="submit">Save Changes</button>
+                    <button className="edit-group-cancel" onClick={handleCancel}>Cancel</button>
+                </div>
             </form>
         </div>
     )
