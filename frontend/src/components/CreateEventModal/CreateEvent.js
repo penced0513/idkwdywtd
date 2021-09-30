@@ -16,8 +16,14 @@ const CreateEvent = ({ closeModal }) => {
     const handleSubmit = async(e) => {
         e.preventDefault()
         const validationErrors = []
-        const regex = /\w+/
-        if (!regex.test(name)) validationErrors.push("Invalid Name")
+        const whiteSpaceRegexStart = /^(\s+)/
+        const whiteSpaceRegexEnd = /(\s+)$/
+        if (whiteSpaceRegexStart.test(name)) validationErrors.push("Invalid Name, Name can't start with whitespace")
+        if (whiteSpaceRegexEnd.test(name)) validationErrors.push("Invalid Name, Name can't end with whitespace")
+        if (duration <= 0) validationErrors.push("Must last 1 day or longer")
+        if (duration % 1 !== 0) validationErrors.push("Duration must be a whole number")
+        if (startDate < (new Date()).toISOString().split('T')[0]) validationErrors.push("Start Date must be in the future")
+
         if (validationErrors.length) {
             setErrors(validationErrors)
         } else {

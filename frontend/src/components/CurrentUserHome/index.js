@@ -34,12 +34,12 @@ function CurrentUserHome() {
                 <div className="home-groups-events-container">
                     <div className="upcoming-events-container">
                         <h2>Upcoming Events</h2>
-                        {events && (events.length !== 0 && events.map(event => <div className="groups-groupcard" ><EventCard key={event.id} event={event} /></div>))}
+                        {events && (events.length !== 0 && events.map(event => <div key={event.id} className="groups-groupcard" ><EventCard key={event.id} event={event} /></div>))}
                         {isLoaded && events?.length === 0 &&  <div>No Events Found</div>}
                     </div>
                     <div className="recent-groups-container">
                         <h2>Recently Joined Groups</h2>
-                        {groups && (groups.length !== 0 && groups.map(group => <div className="groups-groupcard"><GroupCard key={group.id} group={group} /></div>))}
+                        {groups && (groups.length !== 0 && groups.map(group => <div key={group.id} className="groups-groupcard"><GroupCard key={group.id} group={group} /></div>))}
                         {isLoaded && groups?.length === 0 &&  <div>No Groups Found</div>}
                     </div>
                 </div>

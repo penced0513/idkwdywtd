@@ -18,7 +18,7 @@ export default function Groups() {
         <div className="groups-container">
             <h1>My Events</h1>
             <div className="groups-list">
-                {events?.map(event => <div className="groups-groupcard"><EventCard key={event.id} event={event} /></div>)}
+                {events?.map(event => <div  key={event.id} className="groups-groupcard"><EventCard key={event.id} event={event} /></div>)}
             </div>
         </div>
 )

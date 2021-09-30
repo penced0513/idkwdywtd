@@ -8,7 +8,6 @@ export default function Groups() {
     const dispatch = useDispatch()
     const groups = useSelector((state) => Object.values(state.groups).sort((a, b) => a.name > b.name ? 1 : -1) )
     const sessionUser = useSelector((state) => state.session.user)
-    console.log(groups)
 
     useEffect(() => {
         (async () => {
@@ -20,7 +19,7 @@ export default function Groups() {
         <div className="groups-container">
             <h1>My Groups</h1>
             <div className="groups-list">
-                {groups?.map(group => <div className="groups-groupcard"><GroupCard key={group.id} group={group} /></div>)}
+                {groups?.map(group => <div key={group.id} className="groups-groupcard"><GroupCard key={group.id} group={group} /></div>)}
             </div>
         </div>
 )

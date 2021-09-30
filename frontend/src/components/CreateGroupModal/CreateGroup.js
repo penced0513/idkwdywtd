@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { postGroup } from '../../store/groupReducer';
+import './creategroup.css'
 
 const CreateGroup = ({ closeModal }) => {
     
@@ -14,8 +15,10 @@ const CreateGroup = ({ closeModal }) => {
     const handleSubmit = async(e) => {
         e.preventDefault()
         const validationErrors = []
-        const regex = /\w+/
-        if (!regex.test(name)) validationErrors.push("Invalid Name")
+        const whiteSpaceRegexStart = /^(\s+)/
+        const whiteSpaceRegexEnd = /(\s+)$/
+        if (whiteSpaceRegexStart.test(name)) validationErrors.push("Name can't start with whitespace")
+        if (whiteSpaceRegexEnd.test(name)) validationErrors.push("Name can't end with whitespace")
         if (validationErrors.length) {
             setErrors(validationErrors)
         } else {
@@ -28,21 +31,19 @@ const CreateGroup = ({ closeModal }) => {
         
     }
     return (
-        <div>
+        <div className="create-group-container">
             <h1>Create a Group</h1>
-            <form onSubmit={handleSubmit}>
+            <form className="create-group-form" onSubmit={handleSubmit}>
                 <ul className="signup-errors-container">
-                    {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+                    {errors.map((error, idx) => <li  className="login-error" key={idx}>{error}</li>)}
                 </ul>
-                <label>
-                    Name
                     <input
+                    placeholder="name"
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
                     />
-                </label>
                 <button className="signup-submit" type="submit">Create Group</button>
             </form>
         </div>

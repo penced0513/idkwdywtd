@@ -9,7 +9,7 @@ function EventCard({ event }) {
                 <div>
                     <NavLink className="eventcard-eventname" to={`/events/${event.id}`}>{event.name}</NavLink>
                     <h3 className="eventcard-date">{new Date(event.startDate).toDateString()}</h3> 
-                    <h3 className="eventcard-duration" >{event?.duration > 1 ? event?.duration + " days" : event?.duration + " day"}</h3>
+                    <h3 className="eventcard-duration" >{event?.duration > 1 ? "duration: " + event?.duration + " days" : "duration: " + event?.duration + " day"}</h3>
                 </div>
             </div>
         </div>

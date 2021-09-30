@@ -16,3 +16,11 @@
     display: flex;
     justify-content: center;
 }
+
+.recent-groups-container > h2 {
+    text-align: center;
+}
+
+.upcoming-events-container > h2 {
+    text-align: center;
+}

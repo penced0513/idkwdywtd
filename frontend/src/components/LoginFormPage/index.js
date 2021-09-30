@@ -34,9 +34,19 @@ function LoginFormPage() {
 
   return (
     <div className="login-page-container">
+      <div className="login-info-section">
+        <h2 className="login-info-header">Welcome Back</h2>
+        <p className="login-paragraph"> Stop saying I don't know what do you want to do</p>
+        <p> Just go there instead!</p>
+        <div className="login-signup-link">
+          <p>New to Idkwdywtd?</p> <NavLink to="/signup">Join Now</NavLink>
+        </div>
+        <div className="login-signup-link">
+          <p>Afraid of committment?</p> <NavLink to="" onClick={loginDemo}>Try Our Demo</NavLink>
+        </div>
+      </div>
       <div className="login-content-container">
-        <h2 className="login-header">Welcome Back</h2>
-        <p className="login-paragraph"> Stop asking what do you want to do, and just go figure it out instead!</p>
+      <h2 className="login-header">Sign In</h2>
         <div className="login-form-container">
           <form className="login-form" onSubmit={handleSubmit}>
             <ul className="login-error-ul">
@@ -58,12 +68,6 @@ function LoginFormPage() {
               />
             <button type="submit">Log In</button>
           </form>
-        </div>
-        <div className="login-signup-link">
-          <p>New to Idkwdywtd?</p> <NavLink to="/signup">Join Now</NavLink>
-        </div>
-        <div className="login-signup-link">
-          <p>Afraid of committment?</p> <NavLink to="" onClick={loginDemo}>Try Our Demo</NavLink>
         </div>
       </div>
       <div className='about-me-section'>
