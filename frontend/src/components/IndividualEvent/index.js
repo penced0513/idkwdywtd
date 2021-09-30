@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Redirect, useParams } from "react-router"
 import { destroyUserEventInvite } from "../../store/inviteReducer";
-import { attendEvent, destroyEvent, destroyEventInvite, destroyAttendee, fetchEvent, fetchPending, leaveEvent, fetchEvents } from "../../store/eventReducer";
+import { attendEvent, destroyEvent, destroyEventInvite, destroyAttendee, fetchEvent, fetchPending, leaveEvent } from "../../store/eventReducer";
 import { useHistory } from "react-router-dom"
 import EditEventModal from "../EditEventModal";
 import InviteEventModal from "../InviteEventModal";
@@ -32,7 +32,6 @@ const IndividualEvent = () => {
         pendingIds = pendingMembers2.map(pending => pending.id)
     }
 
-
     useEffect(() => {
         (async () => {
             await dispatch(fetchEvent(eventId));
@@ -51,11 +50,12 @@ const IndividualEvent = () => {
             }
 
         })()
-    }, [dispatch, event, eventId, sessionUser. eventLoaded])
+    }, [dispatch, event, eventId, sessionUser, eventLoaded])
 
 
-    if (attendeeIds && pendingIds.length && sessionUser && ( attendeeIds.indexOf(sessionUser.id) === -1 && pendingIds.indexOf(sessionUser.id) === -1) ) {
-        return <Redirect to="/events" />
+    if (attendeeIds  && sessionUser &&  attendeeIds.indexOf(sessionUser.id) === -1 && !invited ) {
+        dispatch(destroyEvent(eventId, true))
+        history.push('/events')
     }
  
     const deleteCheck = (userId, owner, currentUserId) => {

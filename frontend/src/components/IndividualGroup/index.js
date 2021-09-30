@@ -20,36 +20,36 @@ const IndividualGroup = () => {
     const [pendingMembers2, setPendingMembers2] = useState([])
     const [showPending, setShowPending] = useState(false)
     const invited = useSelector(state => state.invites.groups[groupId])
+     const [groupLoaded, setGroupLoaded] = useState(false)
 
     let groupMembers, groupMemberIds;
     if (group?.GroupMembers) {
         groupMembers = Object.values(group.GroupMembers).map(invite => invite.User)
         groupMemberIds = Object.values(group.GroupMembers).map(invite => invite.User?.id)
     }
-
-    let pendingIds
-    if (pendingMembers2) {
-        pendingIds = pendingMembers2.map(pending => pending.id)
-    }
-    
+   
     useEffect(() => {
         (async () => {
             await dispatch(fetchGroup(groupId));
             await dispatch(fetchUsers())
+            setGroupLoaded(true)
           })();
     }, [dispatch, groupId])
 
     useEffect( () => {
         (async () => {
-            setPendingMembers2([])
-            const pendingInvites = await dispatch(fetchPending(groupId))
-            setPendingMembers2(pendingInvites.map(invite => invite.User))
+            if (groupLoaded){
+                setPendingMembers2([])
+                const pendingInvites = await dispatch(fetchPending(groupId))
+                setPendingMembers2(pendingInvites.map(invite => invite.User))
+            }
         })()
-    }, [dispatch, group, groupId, sessionUser])
+    }, [dispatch, group, groupId, sessionUser, groupLoaded])
 
         
-    if (groupMemberIds && sessionUser && pendingIds.length && (groupMemberIds.indexOf(sessionUser.id) === -1 && pendingIds.indexOf(sessionUser.id) === -1)) {
-        return <Redirect to="/groups" />
+    if (groupMemberIds && sessionUser  && groupMemberIds.indexOf(sessionUser.id) === -1 && !invited) {
+        dispatch(destroyGroup(groupId, true))
+        history.push('/groups')
     }
 
     const handleRemovePending = async(e, userId) => {
