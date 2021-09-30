@@ -8,11 +8,14 @@
 .groupcard-name-pic {
     display: flex;
     align-items: center;
+    text-align: center;
 }
 
 .groupcard-container {
     display: flex;
     align-items: center;
+    justify-content: center;
+    width: 100%;
 }
 
 .user-trash-can-div{
@@ -21,11 +24,7 @@
 
 .groupcard-groupname {
     text-decoration: none;
-    color: black;
 	font-size: 2em; 
-    margin-top: 0.67em; 
-    margin-bottom: 0.67em; 
-    margin-left: 0; 
-    margin-right: 0; 
+    margin: 0;
     font-weight: bold;
 }

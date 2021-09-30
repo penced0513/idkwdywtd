@@ -1,0 +1,26 @@
+.home-groups-events-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.user-home-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-home-content-container h1 {
+    text-align: center;
+}
+
+.user-home-image-container {
+    display: flex;
+    justify-content: center;
+}
+
+.recent-groups-container > h2 {
+    text-align: center;
+}
+
+.upcoming-events-container > h2 {
+    text-align: center;
+}

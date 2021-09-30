@@ -1,0 +1,43 @@
+.create-event-container {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.create-event-form {
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+.create-event-form > div{
+    display: flex;
+    justify-content: space-between;
+}
+
+.create-event-form input::placeholder {
+    color: red
+}
+.create-event-form input {
+    color: #bb86fc;
+    text-align: end;
+    width: 50%;
+    background-color: #121212;
+    border-color: #bb86fc;
+    margin-bottom: 1em;
+}
+
+.calendar-input::-webkit-calendar-picker-indicator {
+    filter: invert(67%) sepia(68%) saturate(4106%) hue-rotate(222deg) brightness(105%) contrast(98%);
+} 
+
+.create-event-form > button {
+    background-color: #BB86fc;
+    border-radius: 6px;
+    width: 50%;
+    align-self: center;
+    color: black;
+    font-weight: bold;
+    padding: 0.5em 0;
+}

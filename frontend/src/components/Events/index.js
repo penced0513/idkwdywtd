@@ -1,9 +1,7 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-// import { fetchGroups } from "../../store/groupReducer";
 import { fetchEvents } from "../../store/eventReducer";
 import EventCard from "../EventCard";
-
 
 export default function Groups() {
     const dispatch = useDispatch()
@@ -17,8 +15,11 @@ export default function Groups() {
     }, [dispatch, sessionUser])
     
     return (
-        <div>
-            {events?.map(event => <EventCard key={event.id} event={event} />)}
+        <div className="groups-container">
+            <h1>My Events</h1>
+            <div className="groups-list">
+                {events?.map(event => <div  key={event.id} className="groups-groupcard"><EventCard key={event.id} event={event} /></div>)}
+            </div>
         </div>
 )
 

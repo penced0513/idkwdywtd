@@ -6,7 +6,7 @@ import GroupCard from '../GroupCard'
 
 export default function Groups() {
     const dispatch = useDispatch()
-    const groups = useSelector((state) => Object.values(state.groups))
+    const groups = useSelector((state) => Object.values(state.groups).sort((a, b) => a.name > b.name ? 1 : -1) )
     const sessionUser = useSelector((state) => state.session.user)
 
     useEffect(() => {
@@ -16,8 +16,11 @@ export default function Groups() {
     }, [dispatch, sessionUser])
     
     return (
-        <div>
-            {groups?.map(group => <GroupCard key={group.id} group={group} />)}
+        <div className="groups-container">
+            <h1>My Groups</h1>
+            <div className="groups-list">
+                {groups?.map(group => <div key={group.id} className="groups-groupcard"><GroupCard key={group.id} group={group} /></div>)}
+            </div>
         </div>
 )
 
