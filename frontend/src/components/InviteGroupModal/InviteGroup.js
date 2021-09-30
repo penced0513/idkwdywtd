@@ -32,6 +32,7 @@ const InviteGroup = ({ closeModal, setPendingMembers2 }) => {
     return (
         <div>
             <h1>Invite a User</h1>
+            <div className="invite-users-grid">
             {users && groupMemberIds && Object.values(users).map(user => {
                 
                 if (!(groupMemberIds.indexOf(user.id) !== -1 || 
@@ -43,6 +44,7 @@ const InviteGroup = ({ closeModal, setPendingMembers2 }) => {
                     return null
                 }
             })}
+            </div>
             <select
                 value={invitedUserId}
                 onChange={e => setInvitedUserId(e.target.value)}

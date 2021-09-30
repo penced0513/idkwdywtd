@@ -3,6 +3,7 @@ import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { inviteToEvent } from '../../store/eventReducer';
 import UserCard from '../UserCard';
+import './inviteevent.css'
 
 
 const InviteEvent = ({ closeModal, setPendingMembers2 }) => {
@@ -32,17 +33,19 @@ const InviteEvent = ({ closeModal, setPendingMembers2 }) => {
     return (
         <div>
             <h1>Invite a User</h1>
-            {users && eventMemberIds && Object.values(users).map(user => {
-                
-                if (!(eventMemberIds.indexOf(user.id) !== -1 || 
-                pendingMembersIds.indexOf(user.id) !== -1)) {
-                    return (
-                        <UserCard key={user.id} user={user} />
-                    )
-                } else {
-                    return null
-                }
-            })}
+            <div className="invite-users-grid">
+                {users && eventMemberIds && Object.values(users).map(user => {
+                    
+                    if (!(eventMemberIds.indexOf(user.id) !== -1 || 
+                    pendingMembersIds.indexOf(user.id) !== -1)) {
+                        return (
+                            <UserCard key={user.id} user={user} />
+                        )
+                    } else {
+                        return null
+                    }
+                })}
+            </div>
             <select
                 value={invitedUserId}
                 onChange={e => setInvitedUserId(e.target.value)}
