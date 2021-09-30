@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Redirect, useParams } from "react-router"
-import { destroyEvent, destroyEventInvite, destroyAttendee, fetchEvent, fetchPending, leaveEvent } from "../../store/eventReducer";
+import { destroyUserEventInvite } from "../../store/inviteReducer";
+import { attendEvent, destroyEvent, destroyEventInvite, destroyAttendee, fetchEvent, fetchPending, leaveEvent, fetchEvents } from "../../store/eventReducer";
 import { useHistory } from "react-router-dom"
 import EditEventModal from "../EditEventModal";
 import InviteEventModal from "../InviteEventModal";
@@ -17,6 +18,8 @@ const IndividualEvent = () => {
     const pending = useSelector((state) => state.events[eventId]?.pending)
     const [pendingMembers2, setPendingMembers2] = useState([])
     const [showPending, setShowPending] = useState(false)
+    const [eventLoaded, setEventLoaded] = useState(false)
+    const invited = useSelector(state => state.invites.events[eventId])
 
     let attendees, attendeeIds;
     if (event?.Attendees) {
@@ -24,26 +27,34 @@ const IndividualEvent = () => {
         attendeeIds = Object.values(event.Attendees).map(invite => invite.userId)
     }
 
+    let pendingIds
+    if (pendingMembers2) {
+        pendingIds = pendingMembers2.map(pending => pending.id)
+    }
+
 
     useEffect(() => {
         (async () => {
             await dispatch(fetchEvent(eventId));
             await dispatch(fetchUsers())
+            setEventLoaded(true)
           })();
     }, [dispatch, eventId])
 
     useEffect( () => {
         (async () => {
-            if (event?.host === sessionUser?.id) {
+            if (eventLoaded) {
                 setPendingMembers2([])
                 const pendingInvites = await dispatch(fetchPending(eventId))
                 setPendingMembers2(pendingInvites.map(invite => invite.User))
+
             }
+
         })()
-    }, [dispatch, event, eventId, sessionUser])
+    }, [dispatch, event, eventId, sessionUser. eventLoaded])
 
 
-    if (attendeeIds && sessionUser && !(attendeeIds.indexOf(sessionUser.id) !== -1)) {
+    if (attendeeIds && pendingIds.length && sessionUser && ( attendeeIds.indexOf(sessionUser.id) === -1 && pendingIds.indexOf(sessionUser.id) === -1) ) {
         return <Redirect to="/events" />
     }
  
@@ -77,13 +88,26 @@ const IndividualEvent = () => {
     }
     const handleLeave = async(e) => {
         e.preventDefault()
-        await dispatch(leaveEvent(eventId, sessionUser.id))
         history.push("/events")
+        await dispatch(leaveEvent(eventId, sessionUser.id))
     }
 
-    
+    const handleAccept= async(e) => {
+        e.preventDefault()
+        await dispatch(attendEvent(eventId, sessionUser.id))
+        await dispatch(destroyUserEventInvite(sessionUser.id, eventId, true))
+    }
+
+    const handleDecline = async(e) => {
+        e.preventDefault()
+        await dispatch(destroyUserEventInvite(sessionUser.id, eventId, false))
+        history.push('/events')
+        await dispatch(destroyEvent(eventId, true))
+    }
+
+
     let deleteContent;
-    if (sessionUser && event) {
+    if (sessionUser && event && !invited && pendingIds?.indexOf(sessionUser.id) === -1) {
         if(sessionUser.id === event.host) {
             deleteContent = <button onClick={handleDelete}>Delete Event</button>
         } else {
@@ -110,6 +134,8 @@ const IndividualEvent = () => {
             <div className="edit-delete-group-container">
                 {sessionUser?.id === event?.host && <EditEventModal event={event}/>}
                 {deleteContent}
+                { (attendeeIds?.indexOf(sessionUser?.id) === -1 && invited) && <button onClick={handleAccept}>Accept Invitation</button>}
+                { (attendeeIds?.indexOf(sessionUser?.id) === -1 && invited) && <button onClick={handleDecline}>Decline Invitation</button>}
             </div>
             <div className="group-info-container">
                     <img alt="event" className="group-groupPic" src={event?.eventPic} />

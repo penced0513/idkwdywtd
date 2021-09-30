@@ -80,6 +80,7 @@ router.get('/:userId/events', asyncHandler(async(req,res) => {
   const groupmember = await Attendee.findAll({
     where: {
       userId,
+      accepted: true
     },
     include: {
       model: Event
@@ -88,6 +89,58 @@ router.get('/:userId/events', asyncHandler(async(req,res) => {
 
   return res.json(groupmember)
 }))
+
+router.get('/:userId/groups/invited', asyncHandler(async(req,res) => {
+  const {userId} = req.params
+
+  const invites = await GroupMember.findAll({
+    where: {
+      userId,
+      accepted: null
+    },
+    include: {
+      model: Group
+    }
+  })
+
+  return res.json(invites)
+}))
+
+
+router.get('/:userId/events/invited', asyncHandler(async(req,res) => {
+  const {userId} = req.params
+  
+  const groupmember = await Attendee.findAll({
+    where: {
+      userId,
+      accepted: null
+    },
+    include: {
+      model: Event
+    }
+  })
+
+  return res.json(groupmember)
+}))
+
+router.delete('/:userId/groups/:groupId/reject', asyncHandler(async(req,res) => {
+  const {userId, groupId} = req.params
+
+  const invite = await GroupMember.findOne({where: {userId, groupId}})
+  await invite.destroy()
+
+  return res.json("deleted")
+}))
+
+router.delete('/:userId/events/:eventId/reject', asyncHandler(async(req,res) => {
+  const {userId, eventId} = req.params
+
+  const invite = await Attendee.findOne({where: {userId, eventId}})
+  await invite.destroy()
+
+  return res.json("deleted")
+}))
+
 
 
   module.exports = router;

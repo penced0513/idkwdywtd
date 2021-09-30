@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import './Navigation.css';
@@ -7,10 +7,20 @@ import CreateEventModal from '../CreateEventModal';
 import * as sessionActions from '../../store/session';
 import { eventsLogout } from "../../store/eventReducer";
 import { groupsLogout } from "../../store/groupReducer";
+import { fetchEventInvites, fetchGroupInvites } from '../../store/inviteReducer';
 
 function Navigation({ isLoaded }){
   const sessionUser = useSelector(state => state.session.user);
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    (async () => {
+        if (sessionUser){
+          dispatch(fetchGroupInvites(sessionUser.id))
+          dispatch(fetchEventInvites(sessionUser.id))
+        }
+      })();
+}, [dispatch, sessionUser])
 
   const logout = (e) => {
     e.preventDefault();

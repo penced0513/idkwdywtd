@@ -172,15 +172,33 @@ export const editGroup = (groupId, groupName, groupPic) => async(dispatch) => {
     }
 }
 
-export const destroyGroup = (groupId) => async(dispatch) => {
+export const destroyGroup = (groupId, invite) => async(dispatch) => {
 
-    const res = await csrfFetch(`/api/groups/${groupId}`, {
-        method: "DELETE"
+    if (!invite) {
+        const res = await csrfFetch(`/api/groups/${groupId}`, {
+            method: "DELETE"
+        })
+    
+        if (res.ok) {
+            dispatch(deleteGroup(groupId))
+            return true
+        }
+        return
+    }
+    dispatch(deleteGroup(groupId))
+}
+
+
+export const joinGroup = (groupId, userId) => async(dispatch) => {
+    const res = await csrfFetch(`/api/groups/${groupId}/join`, {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json'},
+        body: JSON.stringify({userId})
     })
 
     if (res.ok) {
-        dispatch(deleteGroup(groupId))
-        return true
+        const group = await res.json()
+        if (group) dispatch(getGroup(group))
     }
 }
 
