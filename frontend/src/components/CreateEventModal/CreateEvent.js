@@ -22,6 +22,7 @@ const CreateEvent = ({ closeModal }) => {
         if (whiteSpaceRegexStart.test(name)) validationErrors.push("Invalid Name, Name can't start with whitespace")
         if (whiteSpaceRegexEnd.test(name)) validationErrors.push("Invalid Name, Name can't end with whitespace")
         if (name.length > 20) validationErrors.push("Name can't be longer than 20 characters")
+        if (duration > 365) validationErrors.push("Events can't last longer than a year")
         if (duration <= 0) validationErrors.push("Must last 1 day or longer")
         if (duration % 1 !== 0) validationErrors.push("Duration must be a whole number")
         if (startDate < (new Date()).toISOString().split('T')[0]) validationErrors.push("Start Date must be in the future")

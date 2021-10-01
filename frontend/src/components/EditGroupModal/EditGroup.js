@@ -32,6 +32,7 @@ const EditGroup = ({ closeModal, name:groupName, groupPic }) => {
         const validationErrors = []
         let checkedImage = await checkImage(imageUrl)
         if(!checkedImage) validationErrors.push("Please include a valid image URL")
+        if (name.length > 20) validationErrors.push("Name can't be longer than 20 characters")
         const regex = /\w+/
         if (!regex.test(name)) validationErrors.push("Invalid Name")
         if (validationErrors.length) {
