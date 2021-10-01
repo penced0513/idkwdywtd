@@ -35,6 +35,8 @@ const EditEvent = ({ closeModal, event }) => {
         if(!checkedImage) validationErrors.push("Please include a valid image URL")
         const regex = /\w+/
         if (!regex.test(name)) validationErrors.push("Invalid Name")
+        if (name.length > 20) validationErrors.push("Name can't be longer than 20 characters")
+        if (duration > 365) validationErrors.push("Events can't last longer than a year")
         if (validationErrors.length) {
             setErrors(validationErrors)
         } else {
