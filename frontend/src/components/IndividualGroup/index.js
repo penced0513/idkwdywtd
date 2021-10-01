@@ -76,8 +76,8 @@ const IndividualGroup = () => {
 
     const handleDelete = async(e) => {
         e.preventDefault()
-        await dispatch(destroyGroup(groupId))
         history.push("/groups")
+        await dispatch(destroyGroup(groupId))
     }
     const handleLeave = async(e) => {
         e.preventDefault()

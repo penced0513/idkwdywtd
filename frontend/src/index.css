@@ -1,6 +1,7 @@
 body {
     color: #bb86fc;
     background-color: #121212;
+    max-width: 100%;
 }
 
 body a {

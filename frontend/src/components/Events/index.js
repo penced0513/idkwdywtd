@@ -20,7 +20,7 @@ export default function Groups() {
     }, [dispatch, sessionUser])
     
     return (
-        isLoaded && (
+        (isLoaded || events.length) && (
         <div className="groups-container">
             <h1>My Events</h1>
             <div className="groups-list">

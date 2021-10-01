@@ -83,8 +83,8 @@ const IndividualEvent = () => {
 
     const handleDelete = async(e) => {
         e.preventDefault()
-        await dispatch(destroyEvent(eventId))
         history.push("/events")
+        await dispatch(destroyEvent(eventId))
     }
     const handleLeave = async(e) => {
         e.preventDefault()

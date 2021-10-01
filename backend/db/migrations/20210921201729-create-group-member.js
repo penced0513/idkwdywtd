@@ -11,12 +11,14 @@ module.exports = {
       userId: {
         allowNull: false,
         type: Sequelize.INTEGER,
-        references: { model: "Users"}
+        references: { model: "Users"},
+        unique: 'group_member',
       },
       groupId: {
         allowNull: false,
         type: Sequelize.INTEGER,
-        references: { model: "Groups"}
+        references: { model: "Groups"},
+        unique: 'group_member',
       },
       accepted: {
         type: Sequelize.BOOLEAN
@@ -30,6 +32,12 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.fn('now'),
+      }
+    }, {
+      uniqueKeys: {
+        group_member: {
+          fields: ['userId', 'groupId']
+        }
       }
     });
   },
