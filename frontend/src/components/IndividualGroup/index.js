@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Redirect, useParams } from "react-router"
+import {  useParams } from "react-router"
 import { destroyGroup, destroyGroupInvite, destroyGroupMember, fetchGroup, fetchPending, joinGroup, leaveGroup } from "../../store/groupReducer";
 import { useHistory } from "react-router-dom"
 import EditGroupModal from "../EditGroupModal";
@@ -118,8 +118,8 @@ const IndividualGroup = () => {
 
     const handleDecline = async(e) => {
         e.preventDefault()
-        await dispatch(destroyUserGroupInvite(sessionUser.id, groupId, false))
         history.push('/groups')
+        await dispatch(destroyUserGroupInvite(sessionUser.id, groupId, false))
         await dispatch(destroyGroup(groupId, true))
     }
 

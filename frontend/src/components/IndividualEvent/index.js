@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Redirect, useParams } from "react-router"
+import { useParams } from "react-router"
 import { destroyUserEventInvite } from "../../store/inviteReducer";
 import { attendEvent, destroyEvent, destroyEventInvite, destroyAttendee, fetchEvent, fetchPending, leaveEvent } from "../../store/eventReducer";
 import { useHistory } from "react-router-dom"
@@ -100,8 +100,8 @@ const IndividualEvent = () => {
 
     const handleDecline = async(e) => {
         e.preventDefault()
-        await dispatch(destroyUserEventInvite(sessionUser.id, eventId, false))
         history.push('/events')
+        await dispatch(destroyUserEventInvite(sessionUser.id, eventId, false))
         await dispatch(destroyEvent(eventId, true))
     }
 

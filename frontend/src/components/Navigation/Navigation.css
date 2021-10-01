@@ -31,3 +31,7 @@
 .navbar button:hover {
     cursor: pointer;
 }
+
+.notifications-nav > span {
+    color: #03dAC5;
+}

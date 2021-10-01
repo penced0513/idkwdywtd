@@ -9,8 +9,14 @@ import { eventsLogout } from "../../store/eventReducer";
 import { groupsLogout } from "../../store/groupReducer";
 import { fetchEventInvites, fetchGroupInvites } from '../../store/inviteReducer';
 
+
+
 function Navigation({ isLoaded }){
   const sessionUser = useSelector(state => state.session.user);
+
+  const eventNotifications = useSelector(state => Object.values(state.invites.events))
+  const groupNotifications = useSelector(state => Object.values(state.invites.groups))
+
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -29,6 +35,12 @@ function Navigation({ isLoaded }){
     dispatch(eventsLogout())
   };
 
+  const checkNotifications = () => {
+    const notificationAmount = eventNotifications.length + groupNotifications.length
+    if (notificationAmount) return <span>{notificationAmount}</span>
+    return null
+  }
+
   let sessionLinks;
   if (sessionUser) {
     sessionLinks = (
@@ -38,6 +50,7 @@ function Navigation({ isLoaded }){
         <div><NavLink exact to="/events">My Events</NavLink></div>
         <div><CreateGroupModal title="Create Group"/></div>
         <div><CreateEventModal title="Create Event"/></div>
+        <div><NavLink className="notifications-nav" to="/notifications">{checkNotifications()} Notifications</NavLink></div>
         <div><button onClick={logout}>Log Out</button></div>
       </div>
     );

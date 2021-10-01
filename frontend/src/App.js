@@ -11,6 +11,7 @@ import IndividualGroup from "./components/IndividualGroup";
 import ProtectedRoute from "./components/ProtectedRoute";
 import IndividualEvent from "./components/IndividualEvent";
 import CurrentUserHome from "./components/CurrentUserHome";
+import Notifications from "./components/Notifications";
 
 function App() {
   const dispatch = useDispatch();
@@ -44,6 +45,9 @@ function App() {
           </ProtectedRoute>
           <ProtectedRoute path="/" exact>
             <CurrentUserHome />
+          </ProtectedRoute>
+          <ProtectedRoute path="/notifications" exact>
+            <Notifications />
           </ProtectedRoute>
         </Switch>
       )}
