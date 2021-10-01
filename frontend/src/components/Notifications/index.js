@@ -36,7 +36,7 @@ const Notifications = () => {
             dispatch(fetchGroupInvites(sessionUser.id))
             dispatch(fetchEventInvites(sessionUser.id))
         }
-    }, [sessionUser])
+    }, [sessionUser, dispatch])
 
     return (
         <div className="notifications-container">
