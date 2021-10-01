@@ -1,5 +1,6 @@
 .notifications-headers {
     display: flex;
+    margin-bottom: 1em;
 }
 
 .notifications-headers > h1 {
@@ -8,4 +9,8 @@
 
 .notifications-headers > h1:hover {
     cursor: pointer;
+}
+
+.notifications-container {
+    margin-left: 1em;
 }
