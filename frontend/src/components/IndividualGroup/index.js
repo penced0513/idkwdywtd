@@ -8,7 +8,7 @@ import InviteGroupModal from "../InviteGroupModal";
 import { fetchUsers } from "../../store/userReducer";
 import './individualGroup.css'
 import UsersList from "../UsersList";
-import { destroyUserGroupInvite } from "../../store/inviteReducer";
+import { destroyUserGroupInvite, fetchEventInvites, fetchGroupInvites } from "../../store/inviteReducer";
 
 const IndividualGroup = () => {
     const dispatch = useDispatch()
@@ -24,7 +24,7 @@ const IndividualGroup = () => {
 
     let groupMembers, groupMemberIds;
     if (group?.GroupMembers) {
-        groupMembers = Object.values(group.GroupMembers).map(invite => invite.User)
+        groupMembers = Object.values(group.GroupMembers).map(invite => invite.User).sort( (a,b) => a.username > b.username ? 1 : -1)
         groupMemberIds = Object.values(group.GroupMembers).map(invite => invite.User?.id)
     }
    
@@ -33,8 +33,12 @@ const IndividualGroup = () => {
             await dispatch(fetchGroup(groupId));
             await dispatch(fetchUsers())
             setGroupLoaded(true)
+            if (sessionUser) {
+                dispatch(fetchEventInvites(sessionUser.id))
+                dispatch(fetchGroupInvites(sessionUser.id))
+            }
           })();
-    }, [dispatch, groupId])
+    }, [dispatch, groupId, sessionUser])
 
     useEffect( () => {
         (async () => {

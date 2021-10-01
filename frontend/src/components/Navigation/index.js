@@ -20,18 +20,10 @@ function Navigation({ isLoaded }){
   const dispatch = useDispatch()
 
   useEffect(() => {
-    
-    let timer1 = setInterval(() => {
-        if (sessionUser){
-          console.log('fetched invites')
-          dispatch(fetchGroupInvites(sessionUser.id))
-          dispatch(fetchEventInvites(sessionUser.id))
-        }
-      }, 5000)
-      return () => {
-        clearInterval(timer1)
-      };
-
+    if (sessionUser){
+      dispatch(fetchGroupInvites(sessionUser.id))
+      dispatch(fetchEventInvites(sessionUser.id))
+    }
 }, [dispatch, sessionUser])
 
   const logout = (e) => {

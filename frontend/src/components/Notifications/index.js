@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import GroupCard from '../GroupCard'
 import EventCard from '../EventCard'
@@ -22,11 +22,17 @@ const Notifications = () => {
         setShowGroupNotifications(true)
     }
 
+    useEffect( () => {
+        showEventNotifications ? document.getElementById("event-noti-header").setAttribute("class", "selected") : document.getElementById("event-noti-header").setAttribute("class", "not-selected")
+        showGroupNotifications ? document.getElementById("group-noti-header").setAttribute("class", "selected") : document.getElementById("group-noti-header").setAttribute("class", "not-selected")
+
+    }, [showEventNotifications, showGroupNotifications])
+
     return (
         <div className="notifications-container">
             <div className="notifications-headers">
-                <h1 onClick={handleGroupClick}>Group Invites</h1>
-                <h1 onClick={handleEventClick}>Event Invites</h1>
+                <h1 id="group-noti-header" onClick={handleGroupClick}>Group Invites</h1>
+                <h1 id="event-noti-header" onClick={handleEventClick}>Event Invites</h1>
             </div>
             {showGroupNotifications && (
                 <div className="groups-list">
@@ -35,6 +41,7 @@ const Notifications = () => {
                     ))}
                 </div>
             )}
+            {showGroupNotifications && !groupNotifications.length && <div className="no-invites">No Group Invites</div>}
             {showEventNotifications && (
                 <div className="groups-list">
                     {eventNotifications.map(event => (
@@ -42,6 +49,7 @@ const Notifications = () => {
                     ))}
                 </div>
             )}
+            {showEventNotifications && !eventNotifications.length && <div className="no-invites">No Event Invites</div>}
         </div>
     )
 }

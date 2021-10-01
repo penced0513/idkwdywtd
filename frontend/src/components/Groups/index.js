@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchGroups } from "../../store/groupReducer";
+import { fetchEventInvites, fetchGroupInvites } from "../../store/inviteReducer";
 import CreateGroupModal from '../CreateGroupModal';
 import GroupCard from '../GroupCard'
 import './groups.css'
@@ -16,12 +17,14 @@ export default function Groups() {
             if (sessionUser.id) {
                 await dispatch(fetchGroups(sessionUser.id));
                 setIsLoaded(true)
+                dispatch(fetchEventInvites(sessionUser.id))
+                dispatch(fetchGroupInvites(sessionUser.id))
             }
           })();
     }, [dispatch, sessionUser])
     
     return (
-        (isLoaded || groups.length) && (
+        (groups.length || isLoaded ) && (
         <div className="groups-container">
             <h1>My Groups</h1>
             <div className="groups-list">
