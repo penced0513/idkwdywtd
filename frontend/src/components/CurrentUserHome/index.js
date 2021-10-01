@@ -5,6 +5,7 @@ import EventCard from '../EventCard';
 import './currentuserhome.css'
 import { fetchGroups } from '../../store/groupReducer';
 import GroupCard from '../GroupCard';
+import { fetchEventInvites, fetchGroupInvites } from '../../store/inviteReducer';
 
 
 function CurrentUserHome() {
@@ -18,6 +19,8 @@ function CurrentUserHome() {
             if (sessionUser.id) {
                 await dispatch(fetchEvents(sessionUser.id));
                 await dispatch(fetchGroups(sessionUser.id))
+                dispatch(fetchEventInvites(sessionUser.id))
+                dispatch(fetchGroupInvites(sessionUser.id))
                 setIsLoaded(true)
             }
 

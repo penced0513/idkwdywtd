@@ -20,12 +20,10 @@ function Navigation({ isLoaded }){
   const dispatch = useDispatch()
 
   useEffect(() => {
-    (async () => {
-        if (sessionUser){
-          dispatch(fetchGroupInvites(sessionUser.id))
-          dispatch(fetchEventInvites(sessionUser.id))
-        }
-      })();
+    if (sessionUser){
+      dispatch(fetchGroupInvites(sessionUser.id))
+      dispatch(fetchEventInvites(sessionUser.id))
+    }
 }, [dispatch, sessionUser])
 
   const logout = (e) => {

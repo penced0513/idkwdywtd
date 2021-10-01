@@ -19,6 +19,7 @@ const CreateGroup = ({ closeModal }) => {
         const whiteSpaceRegexEnd = /(\s+)$/
         if (whiteSpaceRegexStart.test(name)) validationErrors.push("Name can't start with whitespace")
         if (whiteSpaceRegexEnd.test(name)) validationErrors.push("Name can't end with whitespace")
+        if (name.length > 20) validationErrors.push("Name can't be longer than 20 characters")
         if (validationErrors.length) {
             setErrors(validationErrors)
         } else {

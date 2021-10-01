@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router"
-import { destroyUserEventInvite } from "../../store/inviteReducer";
+import { destroyUserEventInvite, fetchEventInvites, fetchGroupInvites } from "../../store/inviteReducer";
 import { attendEvent, destroyEvent, destroyEventInvite, destroyAttendee, fetchEvent, fetchPending, leaveEvent } from "../../store/eventReducer";
 import { useHistory } from "react-router-dom"
 import EditEventModal from "../EditEventModal";
@@ -23,7 +23,7 @@ const IndividualEvent = () => {
 
     let attendees, attendeeIds;
     if (event?.Attendees) {
-        attendees = Object.values(event.Attendees).map(invite => invite.User)
+        attendees = Object.values(event.Attendees).map(invite => invite.User).sort( (a,b) => a.username > b.username ? 1 : -1)
         attendeeIds = Object.values(event.Attendees).map(invite => invite.userId)
     }
 
@@ -36,9 +36,13 @@ const IndividualEvent = () => {
         (async () => {
             await dispatch(fetchEvent(eventId));
             await dispatch(fetchUsers())
+            if (sessionUser) {
+                dispatch(fetchGroupInvites(sessionUser.id))
+                dispatch(fetchEventInvites(sessionUser.id))
+            }
             setEventLoaded(true)
           })();
-    }, [dispatch, eventId])
+    }, [dispatch, eventId, sessionUser])
 
     useEffect( () => {
         (async () => {
@@ -83,8 +87,8 @@ const IndividualEvent = () => {
 
     const handleDelete = async(e) => {
         e.preventDefault()
-        await dispatch(destroyEvent(eventId))
         history.push("/events")
+        await dispatch(destroyEvent(eventId))
     }
     const handleLeave = async(e) => {
         e.preventDefault()

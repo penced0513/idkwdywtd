@@ -11,12 +11,14 @@ module.exports = {
       userId: {
         allowNull: false,
         type: Sequelize.INTEGER,
-        references: { model: "Users"}
+        references: { model: "Users"},
+        unique: 'attendee'
       },
       eventId: {
         allowNull: false,
         type: Sequelize.INTEGER,
-        references: { model: "Events"}
+        references: { model: "Events"},
+        unique: 'attendee'
       },
       balance: {
         type: Sequelize.INTEGER
@@ -33,6 +35,12 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.fn('now'),
+      }
+    }, {
+      uniqueKeys: {
+        attendee: {
+          fields: ['userId', 'eventId']
+        }
       }
     });
   },
