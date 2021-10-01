@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import GroupCard from '../GroupCard'
 import EventCard from '../EventCard'
 import './notifications.css'
+import { fetchEventInvites, fetchGroupInvites } from '../../store/inviteReducer';
 
 const Notifications = () => {
 
+    const dispatch = useDispatch()
     const groupNotifications = useSelector(state => Object.values(state.invites.groups))
     const eventNotifications = useSelector(state => Object.values(state.invites.events))
+    const sessionUser = useSelector(state => state.session.user)
     const [showGroupNotifications, setShowGroupNotifications] = useState(true)
     const [showEventNotifications, setShowEventNotifications] = useState(false)
 
@@ -30,8 +33,8 @@ const Notifications = () => {
 
     useEffect( () => {
         if (sessionUser) {
-            dispatch(fetchEventInvites(sessionUser.id))
             dispatch(fetchGroupInvites(sessionUser.id))
+            dispatch(fetchEventInvites(sessionUser.id))
         }
     }, [sessionUser])
 
