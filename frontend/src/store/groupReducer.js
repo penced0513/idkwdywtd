@@ -234,6 +234,8 @@ const groupReducer = ( state= initialState, action) => {
             newState[action.group.id] = action.group
             return newState
         case GET_PENDING:
+            console.log('why am i here')
+            console.log('payload', action.payload)
             const pending = {}
             action.payload.invites.forEach(invite => {
                 pending[invite.User.id] = invite.User
