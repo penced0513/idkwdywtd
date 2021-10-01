@@ -28,6 +28,13 @@ const Notifications = () => {
 
     }, [showEventNotifications, showGroupNotifications])
 
+    useEffect( () => {
+        if (sessionUser) {
+            dispatch(fetchEventInvites(sessionUser.id))
+            dispatch(fetchGroupInvites(sessionUser.id))
+        }
+    }, [sessionUser])
+
     return (
         <div className="notifications-container">
             <div className="notifications-headers">
