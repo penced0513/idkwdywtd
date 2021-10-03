@@ -1,7 +1,7 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
 const { restoreUser, requireAuth } = require('../../utils/auth');
-const { User, Event, Attendee } = require('../../db/models')
+const { User, Event, Attendee, GroupMember } = require('../../db/models')
 
 const router = express.Router();
 
@@ -143,6 +143,48 @@ router.post('/:eventId(\\d+)/invite', asyncHandler(async(req,res) => {
     })
 
     return res.json(newInvite)
+
+}))
+
+router.post('/:eventId(\\d+)/invite-multiple', asyncHandler(async (req,res) => {
+
+    
+    const { groupId } = req.body
+    const { eventId } = req.params
+    
+
+    const groupMembers = await GroupMember.findAll({
+        where: {
+            groupId, accepted: true
+        }
+    })
+
+
+    const newInvites = []
+    let i = 0;
+    while (i < groupMembers.length) {
+        const groupMember = groupMembers[i]
+        const userId = groupMember.userId
+        const prevInvite = await Attendee.findOne({where:{eventId, userId}})
+        if (!prevInvite) {
+            const invite = await Attendee.create({ eventId, userId}, {
+                include: {
+                    model: User
+                }
+            })
+            const newInvite = await Attendee.findByPk(invite.id, {
+                include: {
+                    model: User
+                }
+            })
+            
+            newInvites.push(newInvite)
+           
+        }
+        i++
+    }
+
+    return res.json({newInvites})
 
 }))
 
