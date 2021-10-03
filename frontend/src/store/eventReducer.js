@@ -7,6 +7,7 @@ const NEW_EVENT = 'event/newEvent'
 const PUT_EVENT = 'event/putEvent'
 const DELETE_EVENT = 'event/deleteEvent'
 const INVITE_TO_EVENT = 'event/inviteToEvent'
+const INVITE_MULTIPLE_TO_EVENT = 'event/inviteMutlipleToEvent'
 const REMOVE_EVENT_INVITE = 'event/removeEventInvite' 
 const REMOVE_EVENT_MEMBER = 'event/removeAttendee'
 const LOGOUT = 'event/logout'
@@ -56,6 +57,13 @@ const eventInvite = (invite) => {
     return {
         type: INVITE_TO_EVENT,
         invite
+    }
+}
+
+const eventInviteMultiple = (invites) => {
+    return {
+        type: INVITE_MULTIPLE_TO_EVENT,
+        invites
     }
 }
 
@@ -132,6 +140,21 @@ export const inviteToEvent = (eventId, userId) => async(dispatch) => {
     if (res.ok) {
         const invite = await res.json()
         dispatch(eventInvite(invite))
+    }
+}
+
+export const inviteMultipleToEvent = (eventId, groupId) => async(dispatch) => {
+    const res = await csrfFetch(`/api/events/${eventId}/invite-multiple`, {
+        method: "post",
+        headers: { 'Content-Type': 'application/json'},
+        body: JSON.stringify({groupId})
+    })
+    if (res.ok) {
+        const newInvites = await res.json()
+
+        if (newInvites.newInvites.length) {
+            dispatch(eventInviteMultiple(newInvites.newInvites))
+        }
     }
 }
 
@@ -235,13 +258,18 @@ const eventReducer = ( state= initialState, action) => {
             action.payload.invites.forEach(invite => {
                 pending[invite.User.id] = invite.User
             })
-            newState[action.payload.eventId].pending = pending
+            if (newState[action.payload.eventId]) newState[action.payload.eventId].pending = pending
             return newState
         case DELETE_EVENT:
             delete newState[action.eventId]
             return newState
         case INVITE_TO_EVENT:
             newState[action.invite.eventId].pending[action.invite.User.id] = action.invite.User
+            return newState
+        case INVITE_MULTIPLE_TO_EVENT:
+            action.invites.forEach(invite => {
+                newState[invite.eventId].pending[invite.User.id] = invite.User
+            })
             return newState
         case REMOVE_EVENT_INVITE:
             delete newState[action.payload.eventId].pending[action.payload.userId]

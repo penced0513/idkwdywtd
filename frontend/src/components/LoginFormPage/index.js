@@ -44,6 +44,12 @@ function LoginFormPage() {
         <div className="login-signup-link">
           <p>Afraid of committment?</p> <NavLink to="" onClick={loginDemo}>Try Our Demo</NavLink>
         </div>
+        <div className="login-signup-github">
+          <p>No idea what this application is?</p>
+          <div className="login-signup-link">
+            <a href="https://github.com/penced0513/idkwdywtd/blob/main/README.md">Check out the Github Readme</a>
+          </div>
+        </div>
       </div>
       <div className="login-content-container">
       <h2 className="login-header">Log In</h2>

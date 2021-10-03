@@ -147,3 +147,13 @@ body, #root, html {
 .login-info-section a {
     font-size: 1.25em;
 }
+
+.login-signup-github {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-signup-github > p {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}

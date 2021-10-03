@@ -45,7 +45,7 @@ const Notifications = () => {
                 <h1 id="event-noti-header" onClick={handleEventClick}>Event Invites</h1>
             </div>
             {showGroupNotifications && (
-                <div className="groups-list">
+                <div className="groups-list grid">
                     {groupNotifications.map(group => (
                         <GroupCard key={group.id} group={group} />
                     ))}
@@ -53,7 +53,7 @@ const Notifications = () => {
             )}
             {showGroupNotifications && !groupNotifications.length && <div className="no-invites">No Group Invites</div>}
             {showEventNotifications && (
-                <div className="groups-list">
+                <div className="groups-list grid">
                     {eventNotifications.map(event => (
                         <EventCard key={event.id} event={event} />
                     ))}
