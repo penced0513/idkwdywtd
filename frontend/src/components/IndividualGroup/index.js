@@ -52,8 +52,8 @@ const IndividualGroup = () => {
 
         
     if (groupMemberIds && sessionUser  && groupMemberIds.indexOf(sessionUser.id) === -1 && !invited) {
-        dispatch(destroyGroup(groupId, true))
         history.push('/groups')
+        dispatch(destroyGroup(groupId, true))
     }
 
     const handleRemovePending = async(e, userId) => {

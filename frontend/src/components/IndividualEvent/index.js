@@ -8,6 +8,7 @@ import EditEventModal from "../EditEventModal";
 import InviteEventModal from "../InviteEventModal";
 import { fetchUsers } from "../../store/userReducer";
 import UsersList from "../UsersList";
+import { fetchGroups } from "../../store/groupReducer";
 
 const IndividualEvent = () => {
     const dispatch = useDispatch()
@@ -39,6 +40,7 @@ const IndividualEvent = () => {
             if (sessionUser) {
                 dispatch(fetchGroupInvites(sessionUser.id))
                 dispatch(fetchEventInvites(sessionUser.id))
+                dispatch(fetchGroups(sessionUser.id))
             }
             setEventLoaded(true)
           })();
@@ -46,7 +48,7 @@ const IndividualEvent = () => {
 
     useEffect( () => {
         (async () => {
-            if (eventLoaded) {
+            if (eventLoaded ) {
                 setPendingMembers2([])
                 const pendingInvites = await dispatch(fetchPending(eventId))
                 setPendingMembers2(pendingInvites.map(invite => invite.User))
@@ -58,9 +60,10 @@ const IndividualEvent = () => {
 
 
     if (attendeeIds  && sessionUser &&  attendeeIds.indexOf(sessionUser.id) === -1 && !invited ) {
-        dispatch(destroyEvent(eventId, true))
         history.push('/events')
+        dispatch(destroyEvent(eventId, true))
     }
+    console.log('event', event)
  
     const deleteCheck = (userId, owner, currentUserId) => {
         return currentUserId === owner && userId !== owner

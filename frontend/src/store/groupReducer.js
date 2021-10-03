@@ -234,13 +234,11 @@ const groupReducer = ( state= initialState, action) => {
             newState[action.group.id] = action.group
             return newState
         case GET_PENDING:
-            console.log('why am i here')
-            console.log('payload', action.payload)
             const pending = {}
             action.payload.invites.forEach(invite => {
                 pending[invite.User.id] = invite.User
             })
-            newState[action.payload.groupId].pending = pending
+            if (newState[action.payload.groupId]) newState[action.payload.groupId].pending = pending
             return newState
         case DELETE_GROUP:
             delete newState[action.groupId]

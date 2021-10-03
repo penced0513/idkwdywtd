@@ -27,7 +27,7 @@ export default function Groups() {
         (groups.length || isLoaded ) && (
         <div className="groups-container">
             <h1>My Groups</h1>
-            <div className="groups-list">
+            <div className="groups-list grid">
                 {groups?.map(group => <div key={group.id} className="groups-groupcard"><GroupCard key={group.id} group={group} /></div>)}
             </div>
             {!groups.length && <div className="no-groups">No Groups Found, Try  <CreateGroupModal title="Creating One!"/></div>}

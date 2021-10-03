@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
-import { inviteToEvent } from '../../store/eventReducer';
+import { inviteMultipleToEvent, inviteToEvent } from '../../store/eventReducer';
 import UserCard from '../UserCard';
 import './inviteevent.css'
 
@@ -12,6 +12,8 @@ const InviteEvent = ({ closeModal, setPendingMembers2 }) => {
     const users = useSelector(state => state.users)
     const event = useSelector((state) => state.events[eventId])
     const pending = useSelector((state) => state.events[eventId]?.pending)
+    const groups = useSelector(state => Object.values(state.groups).sort((a, b) => a.name > b.name ? 1 : -1))
+    const [invitedGroupId, setInvitedGroupId] = useState(-1)
     const [invitedUserId, setInvitedUserId] = useState(-1)
 
 
@@ -24,10 +26,23 @@ const InviteEvent = ({ closeModal, setPendingMembers2 }) => {
     if (pending) pendingMembersIds = Object.values(pending).map(member => member.id)
 
     const handleInvite = async(e) => {
-        e.preventDefault()
-        await dispatch(inviteToEvent(eventId, invitedUserId))
-        setInvitedUserId(-1)
-        setPendingMembers2(Object.values(pending))
+        if (invitedUserId !== -1) {
+            e.preventDefault()
+            await dispatch(inviteToEvent(eventId, invitedUserId))
+            setInvitedUserId(-1)
+            setPendingMembers2(Object.values(pending))
+
+        }
+    }
+
+    
+    const handleInviteMultiple = async(e) => {
+        if (invitedGroupId !== -1) {
+            e.preventDefault()
+            await dispatch(inviteMultipleToEvent(eventId, invitedGroupId))
+            setInvitedUserId(-1)
+            setPendingMembers2(Object.values(pending))
+        }
     }
     
     return (
@@ -66,6 +81,21 @@ const InviteEvent = ({ closeModal, setPendingMembers2 }) => {
                 }
             </select>
             <button className="purple-btn" onClick={handleInvite}>Invite</button>
+            
+            <select
+            value={invitedGroupId}
+            onChange={e => setInvitedGroupId(e.target.value)}>
+                <option value={-1}> Please Select a Group</option>
+                {groups && (
+                    groups.map(group => (
+                        <option value={group.id} key={group.id}>
+                            {group.name}
+                        </option>
+                    ))
+                )}
+            </select>
+            
+            <button className="purple-btn" onClick={handleInviteMultiple}>Invite Group</button>
         </div>
     )
 }
