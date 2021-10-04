@@ -63,7 +63,7 @@ const IndividualEvent = () => {
         history.push('/events')
         dispatch(destroyEvent(eventId, true))
     }
-    console.log('event', event)
+
  
     const deleteCheck = (userId, owner, currentUserId) => {
         return currentUserId === owner && userId !== owner
