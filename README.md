@@ -44,6 +44,8 @@ You will no longer need to select users by finding their name in a drop down.
 Now making a group of users won't be the only way to invite more than one user at once!
 ### On click selecting users instead of drop down only
 Once this is implemented, the drop down will get removed and be replaced by selecting a user on the page and having their card be highlighted.
+### Notifications of invites being sent
+Currently, when you hit invite, the only way you can see if the invite was sent was seeing the name removed from the list of users, or seeing it in the pending members section. I want invites to be a bit more intuitive, so a notification of which users were invited when clicking invite is planned. This would also solve notifying when a group is invited and all the members were already attending the event, so no actual invites were sent.
 
 ## Big Picture
 ### Activities
