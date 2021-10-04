@@ -31,6 +31,10 @@ const CreateGroup = ({ closeModal }) => {
         }
         
     }
+    const handleCancel = (e) => {
+        e.preventDefault() 
+        closeModal()
+    } 
     return (
         <div className="create-group-container">
             <h1>Create a Group</h1>
@@ -45,7 +49,10 @@ const CreateGroup = ({ closeModal }) => {
                     onChange={(e) => setName(e.target.value)}
                     required
                     />
-                <button className="signup-submit" type="submit">Create Group</button>
+                <div id="edit-group-btn-container">
+                    <button className="signup-submit" type="submit">Save Changes</button>
+                    <button className="edit-group-cancel" onClick={handleCancel}>Cancel</button>
+                </div>
             </form>
         </div>
     )

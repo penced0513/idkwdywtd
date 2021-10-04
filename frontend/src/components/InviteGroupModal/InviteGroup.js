@@ -29,6 +29,10 @@ const InviteGroup = ({ closeModal, setPendingMembers2 }) => {
         setPendingMembers2(Object.values(pending))
     }
     
+    const handleCancel = (e) => {
+        e.preventDefault() 
+        closeModal()
+    } 
     return (
         <div>
             <h1>Invite a User</h1>
@@ -66,6 +70,7 @@ const InviteGroup = ({ closeModal, setPendingMembers2 }) => {
                 }
             </select>
             <button className="purple-btn" onClick={handleInvite}>Invite</button>
+            <button className="invite-return" onClick={handleCancel}>Return</button>
         </div>
     )
 }

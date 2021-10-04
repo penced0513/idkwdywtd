@@ -7,7 +7,7 @@ import CreateEventModal from '../CreateEventModal';
 import * as sessionActions from '../../store/session';
 import { eventsLogout } from "../../store/eventReducer";
 import { groupsLogout } from "../../store/groupReducer";
-import { fetchEventInvites, fetchGroupInvites } from '../../store/inviteReducer';
+import { fetchEventInvites, fetchGroupInvites, invitesLogout } from '../../store/inviteReducer';
 
 
 
@@ -31,6 +31,7 @@ function Navigation({ isLoaded }){
     dispatch(sessionActions.logout());
     dispatch(groupsLogout())
     dispatch(eventsLogout())
+    dispatch(invitesLogout())
   };
 
   const checkNotifications = () => {

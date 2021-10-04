@@ -54,4 +54,17 @@
     color: #bb86fc;
     background-color: #121212;
     border-color: #121212;
+    width: 25%;
  }
+
+ .invite-return {
+  background-color: rgb(228, 222, 222);
+  border-radius: 6px;
+  width: 10%;
+  align-self: center;
+  color: black;
+  font-weight: bolder;
+  padding: 0.5em 0;
+  position: absolute;
+  right: 5%;
+}

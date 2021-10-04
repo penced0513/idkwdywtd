@@ -25,6 +25,11 @@ const InviteEvent = ({ closeModal, setPendingMembers2 }) => {
     let pendingMembersIds;
     if (pending) pendingMembersIds = Object.values(pending).map(member => member.id)
 
+    const handleCancel = (e) => {
+        e.preventDefault() 
+        closeModal()
+    } 
+
     const handleInvite = async(e) => {
         if (invitedUserId !== -1) {
             e.preventDefault()
@@ -94,8 +99,8 @@ const InviteEvent = ({ closeModal, setPendingMembers2 }) => {
                     ))
                 )}
             </select>
-            
             <button className="purple-btn" onClick={handleInviteMultiple}>Invite Group</button>
+            <button className="invite-return" onClick={handleCancel}>Return</button>
         </div>
     )
 }

@@ -19,3 +19,7 @@
 .user-trash-can-div{
     margin-left: 1em;
 }
+
+.fa-trash-alt:hover {
+    cursor: pointer;
+}

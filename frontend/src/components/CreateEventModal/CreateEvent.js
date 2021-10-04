@@ -38,6 +38,10 @@ const CreateEvent = ({ closeModal }) => {
         }
         
     }
+    const handleCancel = (e) => {
+        e.preventDefault() 
+        closeModal()
+    } 
     return (
         <div className="create-event-container">
             <h1>Create an Event</h1>
@@ -79,7 +83,10 @@ const CreateEvent = ({ closeModal }) => {
                     required
                     />
                 </div>
-                <button className="signup-submit" type="submit">Create Event</button>
+                <div id="edit-group-btn-container">
+                    <button className="signup-submit" type="submit">Save Changes</button>
+                    <button className="edit-group-cancel" onClick={handleCancel}>Cancel</button>
+                </div>
             </form>
         </div>
     )

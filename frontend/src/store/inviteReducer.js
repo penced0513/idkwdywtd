@@ -4,6 +4,7 @@ const GET_GROUP_INVITES = 'invites/getGroupInvites'
 const REMOVE_GROUP_INVITE = 'invites/removeGroupInvite'
 const GET_EVENT_INVITES = 'invites/getEventInvites'
 const REMOVE_EVENT_INVITE = 'invites/removeEventInvite'
+const LOGOUT = 'invite/logout'
 
 
 const getGroupInvites = (groups) => {
@@ -31,6 +32,12 @@ const removeEventInvite = (eventId) => {
     return {
         type: REMOVE_EVENT_INVITE,
         eventId
+    }
+}
+
+export const invitesLogout = () => {
+    return {
+        type: LOGOUT
     }
 }
 
@@ -99,6 +106,8 @@ const inviteReducer = ( state= initialState, action) => {
         case REMOVE_EVENT_INVITE:
             delete newState.events[action.eventId]
             return newState
+        case LOGOUT: 
+            return initialState
         default:
             return state;
     }
